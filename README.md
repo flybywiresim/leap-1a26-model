@@ -8,7 +8,7 @@
 ## About
 A **FlyByWire** Repo focused on the **analysis**, **development** and full **integration** of a realistic **CFM LEAP-1A26** engine model and control (FADEC). 
 
-Please be aware we are still within the **assessment** and **analysis** phase of this initiative, so ++no installations or integrations can be performed yet within the Sim++.
+Please be aware we are still within the **assessment** and **analysis** phase of this initiative, so **_no installations or integrations can be performed yet within the Sim_**.
 
 Stay tuned for updates!
 
