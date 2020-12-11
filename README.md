@@ -2,5 +2,5 @@
 
 # LEAP-1A26 Engine Model & Control
 
-[![License](https://img.shields.io/github/license/flybywiresim/leap-1a26-model)]
-[![Status](https://img.shields.io/badge/Status-Unstable%2F%20WIP-blue)]
+![License](https://img.shields.io/github/license/flybywiresim/leap-1a26-model)
+![Status](https://img.shields.io/badge/Status-Unstable%2F%20WIP-blue)
