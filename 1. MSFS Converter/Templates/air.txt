@@ -1,0 +1,133 @@
+Asobo Variables,AIR Tbl,Type,Offset,VarType,Description,Main Key,Table 17 (MANUAL),Filter
+elevator_scaling_table,0341,P,,RECORD,Elevators Effectivity Table,,,
+aileron_scaling_table,0342,P,,RECORD,Ailerons Effectivity Table,,,
+rudder_scaling_table,0343,P,,RECORD,Rudder Effectivity Table,,,
+lift_coef_ground_effect_mach_table,0400,P,,RECORD,Ground Effects,,,
+lift_coef_mach_table,0401,P,,RECORD,Wing Cl vs Mach Factor,,,
+lift_coef_aoa_table,0404,P,,TBLDB,Wing Cl vs AoA Table,,,
+lift_coef_delta_elevator_mach_table,0410,P,,RECORD,CL_de - Lift - Elevator vs. Mach,,tbl17,
+lift_coef_daoa_mach_table,0411,P,,RECORD,CL_adot - Lift - AoA Rate vs. Mach,,tbl17,
+lift_coef_pitch_rate_mach_table,0412,P,,RECORD,CL_q - Lift - Pitch Rate vs. Mach,,tbl17,
+lift_coef_horizontal_incidence_mach_table,0413,P,,RECORD,CL_dh - Lift - H.Stab vs. Mach,,tbl17,
+pitch_moment_delta_elevator_mach_table,0420,P,,RECORD,Cm_de - Pitch Mom - Elevator vs. Mach,,tbl17,
+pitch_moment_daoa_mach_table,0421,P,,RECORD,Cm_adot - Pitch Mom - AoA Rate vs. Mach,,tbl17,
+pitch_moment_pitch_rate_mach_table,0422,P,,RECORD,Cm_q - Pitch Damping vs. Mach,,tbl17,
+pitch_moment_horizontal_incidence_mach_table,0423,P,,RECORD,Cm_dh - Pitch Mom - H.Stab vs. Mach,,tbl17,
+drag_coef_zero_lift_mach_tab,0430,P,,RECORD,Zero Lift Drag vs. Mach,,tbl17,
+pitch_moment_aoa_0_mach_table,0433,P,,RECORD,Cm0 vs. Mach,,tbl17,
+side_force_slip_angle_mach_table,0440,P,,RECORD,CY_beta - Sideforce - Sideslip vs. Mach,,tbl17,
+side_force_delta_rudder_mach_table,0441,P,,RECORD,CY_dr - Sideforce - Rudder vs. Mach,,tbl17,
+side_force_yaw_rate_mach_table,0442,P,,RECORD,CY_r - Sideforce - Yaw Rate vs. Mach,,tbl17,
+side_force_roll_rate_mach_table,0443,P,,RECORD,CY_p - Sideforce - Roll Rate vs. Mach,,tbl17,
+roll_moment_slip_angle_mach_table,0450,P,,RECORD,Cl_beta - Dihedral effect vs. Mach,,tbl17,
+roll_moment_slip_angle_aoa_table,0451,P,,RECORD,Cl_beta - Dihedral effect vs. AoA,,,
+roll_moment_delta_rudder_mach_table,0452,P,,RECORD,Cl_dr - Roll due to rudder vs. Mach,,tbl17,
+roll_moment_delta_aileron_mach_table,0453,P,,RECORD,Cl_da - Roll due to ailerons vs. Mach,,tbl17,
+roll_moment_yaw_rate_mach_table,0454,P,,RECORD,Cl_r - Roll Mom - Yaw Rate vs. Mach,,tbl17,
+roll_moment_roll_rate_mach_table,0455,P,,RECORD,Cl_p - Roll Damping vs. Mach,,tbl17,
+roll_moment_roll_rate_aoa_table,0456,P,,RECORD,Cl_p - Roll Damping vs. AoA,,,
+yaw_moment_slip_angle_mach_table,0459,P,,RECORD,Cn_beta - Weathervane Effect vs. Mach,,tbl17,
+yaw_moment_slip_angle_aoa_table,0460,P,,RECORD,Cn_beta - Weathervane Effect  vs. AoA,,,
+yaw_moment_delta_rudder_mach_table,0461,P,,RECORD,Cn_dr - Yaw Mom - Rudder vs. Mach,,tbl17,
+yaw_moment_delta_aileron_mach_table,0462,P,,RECORD,Cn_da - Yaw Mom - Ailerons vs. Mach,,tbl17,
+yaw_moment_yaw_rate_mach_table,0463,P,,RECORD,Cn_r - Yaw Damping vs. Mach,,tbl17,
+yaw_moment_yaw_rate_aoa_table,0464,P,,RECORD,Cn_r - Yaw Damping vs. AoA,,,
+yaw_moment_roll_rate_mach_table,0465,P,,RECORD,Cn_p - Yaw Mom - Roll Rate vs. Mach,,tbl17,
+pitch_moment_aoa_table,0473,P,,TBLDB,Aircraft Moment Coeff vs AoA,,,
+engine_mechanical_efficiency_table,0508,P,,RECORD,Power Efficiency,,,
+engine_friction_table,0509,P,,RECORD,Friction Loss,,,
+prop_efficiency_table,0511,X,,TBL3D,Propeller Efficiency ,,,
+prop_power_cf,0512,X,,TBL3D,Propeller Power Coefficient,,,
+roll_moment_delta_aileron_trim_scalar,0516,M,0x0,DOUBLE,*Aileron Trim Factor (neg),Aileron and Rudder Trim,,0.00
+yaw_moment_delta_rudder_trim_scalar,0516,M,0x8,DOUBLE,*Rudder Trim Factor (pos),Aileron and Rudder Trim,,8.00
+elevator_elasticity_table,0517,P,,RECORD,Elevator Deflection vs Q,,,
+aileron_elasticity_table,0518,P,,RECORD,Ailerons Deflection vs Q,,,
+rudder_elasticity_table,0519,P,,RECORD,Rudder Deflection vs Q,,,
+pitch_moment_delta_elevator_aoa_table,0536,P,,RECORD,Elevator Ctrl Factor vs AoA,,,
+pitch_moment_horizontal_incidence_aoa_table,0537,P,,RECORD,Elevator Trim Ctrl Factor vs AoA,,,
+pitch_moment_daoa_aoa_table,0538,P,,RECORD,Pitch moment vs AoA,,,
+pitch_moment_pitch_alpha_table,0539,P,,RECORD,Pitch Damping vs AoA,,,
+egt_tuning_constant,0540,M,0x0,DOUBLE,EGT Scale Factor,Engine EGT,,0.00
+egt_peak_temperature,0540,M,0x8,DOUBLE,*EGT Temp Limit (deg R),Engine EGT,,8.00
+egt_tc,0540,M,0x10,DOUBLE,*EGT Rate of Change,Engine EGT,,10.00
+cht_tuning_constant,0541,M,0x0,DOUBLE,CHT Scale Factor,Engine CHT,,0.00
+cht_cooling_constant,0541,M,0x8,DOUBLE,*CHT Cooling Factor,Engine CHT,,8.00
+cht_heating_constant,0541,M,0x10,DOUBLE,*CHT Temp Limit (deg R),Engine CHT,,10.00
+cht_tc,0541,M,0x18,DOUBLE,*CHT Rate of Change,Engine CHT,,18.00
+radiator_temp_tuning_constant,0542,M,0x0,DOUBLE,Water Temp Scale Factor,Engine Radiator Temperature,,0.00
+radiator_temp_cooling_constant,0542,M,0x8,DOUBLE,*Water Temp Cooling Factor,Engine Radiator Temperature,,8.00
+radiator_temp_max,0542,M,0x10,DOUBLE,*Water Temp Limit (deg R),Engine Radiator Temperature,,10.00
+radiator_temp_tc,0542,M,0x18,DOUBLE,*Water Temp Rate of Change,Engine Radiator Temperature,,18.00
+oil_temp_tuning_constant,0543,M,0x0,DOUBLE,Oil Temp Scale Factor,Engine Oil Temperature,,0.00
+oil_temp_cooling_constant,0543,M,0x8,DOUBLE,*Oil Temp Cooling Factor,Engine Oil Temperature,,8.00
+oil_temp_heating_constant,0543,M,0x10,DOUBLE,*Oil Temp Limit (deg R),Engine Oil Temperature,,10.00
+oil_temp_tc,0543,M,0x18,DOUBLE,*Oil Temp Rate of Change,Engine Oil Temperature,,18.00
+oil_press_tuning_constant,0544,M,0x0,DOUBLE,Oil Pressure Scale Factor,Engine Oil Pressure,,0.00
+oil_press_max,0544,M,0x8,DOUBLE,Oil Pressure Limit * 144 (psi),Engine Oil Pressure,,8.00
+oil_press_tc,0544,M,0x10,DOUBLE,*Oil Pressure Rate of Change,Engine Oil Pressure,,10.00
+fuel_press_tuning_constant,0545,M,0x0,DOUBLE,Fuel Pressure Scale Factor,Engine Fuel Pressure,,0.00
+fuel_press_max,0545,M,0x8,DOUBLE,*Fuel Pressure Limit * 144 (psi),Engine Fuel Pressure,,8.00
+fuel_press_tc,0545,M,0x10,DOUBLE,*Fuel Pressure Rate of Change,Engine Fuel Pressure,,10.00
+aileron_load_factor_effectiveness_table,0546,P,,RECORD,Roll Rate reduction per G,,,
+drag_coef_zero_lift,1101,M,0x30,INT16,<30h> Zero Lift Drag (Cd0),Primary Aerodynamics,,30.00
+drag_coef_flaps,1101,M,0x32,INT16,<32h> Flaps Drag (Cd_df),Primary Aerodynamics,,32.00
+drag_coef_gear,1101,M,0x34,INT16,<34h> Landing Gear Drag (Cd_dg),Primary Aerodynamics,,34.00
+drag_coef_spoilers,1101,M,0x36,INT16,<36h> Spoiler Drag (Cd_ds),Primary Aerodynamics,,36.00
+lift_coef_daoa,1101,M,0x52,INT32,<52h> Lift due to AoA rate (CL_adot),Primary Aerodynamics,,52.00
+lift_coef_pitch_rate,1101,M,0x56,INT32,<56h> Lift due to pitch rate (CL_q),Primary Aerodynamics,,56.00
+lift_coef_spoilers,1101,M,0x66,DOUBLE,<66h> Lift - Spoilers (CL_ds),Primary Aerodynamics,,66.00
+roll_moment_delta_aileron,1101,M,0x70,INT16,<70h> Aileron Control Factor (Cl_da),Primary Aerodynamics,,70.00
+roll_moment_delta_rudder,1101,M,0x72,INT32,<72h> Roll Caused by Rudder (Cl_dr),Primary Aerodynamics,,72.00
+roll_moment_roll_damping,1101,M,0x76,INT32,<76h> Roll Damping Factor (Cl_p),Primary Aerodynamics,,76.00
+pitch_moment_aoa_0,1101,M,0x86,INT32,<86h> Pitch Moment Coeff at AoA=0 (Cmo),Primary Aerodynamics,,86.00
+pitch_moment_horizontal_incidence,1101,M,0x92,INT32,<92h> Trim Pitch Moment (Cm_dh),Primary Aerodynamics,,92.00
+pitch_moment_pitch_damping,1101,M,0x96,INT32,<96h> Pitch Damping Factor (Cm_q),Primary Aerodynamics,,96.00
+lift_coef_delta_elevator,1101,M,0x5A,INT16,<5Ah> Lift - Elevator (CL_de),Primary Aerodynamics,,5A
+lift_coef_horizontal_incidence,1101,M,0x5C,INT16,<5Ch> Lift - Horizontal Stabilizer (CL_dh),Primary Aerodynamics,,5C
+lift_coef_flaps,1101,M,0x5E,DOUBLE,<5Eh> Lift - Flaps (CL_df),Primary Aerodynamics,,5E
+roll_moment_slip_angle,1101,M,0x6E,INT16,<6Eh> Dihedral Effect (Cl_beta),Primary Aerodynamics,,6E
+roll_moment_yaw_rate,1101,M,0x7A,INT32,<7Ah> Roll due to yaw rate (Cl_r),Primary Aerodynamics,,7A
+roll_moment_spoilers,1101,M,0x7E,DOUBLE,<7Eh> Roll moment due to AoA rate (Cl_adot),Primary Aerodynamics,,7E
+pitch_moment_daoa,1101,M,0x8A,INT32,*<8Ah> Pitch Moment - AoA Rate (Cm_adot),Primary Aerodynamics,,8A
+pitch_moment_delta_elevator,1101,M,0x8E,INT32,<8Eh> Elevator Control Factor (Cm_de),Primary Aerodynamics,,8E
+pitch_moment_delta_elevator_propwash,1101,M,0x9A,DOUBLE,<9Ah> Elevator Control due to propwash (Cm_de),Primary Aerodynamics,,9A
+pitch_moment_pitch_propwash,1101,M,0xA2,DOUBLE,<A2h> Pitch damping due to propwash (Cm_q),Primary Aerodynamics,,A2
+pitch_moment_delta_trim,1101,M,0xAA,DOUBLE,*<AAh> Trim Range (Cm_dt),Primary Aerodynamics,,AA
+pitch_moment_flaps,1101,M,0xB2,DOUBLE,<B2h> Pitch Effect - Flaps (Cm_df),Primary Aerodynamics,,B2
+pitch_moment_gear,1101,M,0xBA,DOUBLE,<BAh> Pitch Effect - Gear (Cm_dg),Primary Aerodynamics,,BA
+pitch_moment_spoilers,1101,M,0xC2,DOUBLE,<C2h> Pitch Effect - Spoilers (Cm_ds),Primary Aerodynamics,,C2
+yaw_moment_slip_angle,1101,M,0xCA,INT32,<CAh> Weathervane Stability Factor (Cn_beta),Primary Aerodynamics,,CA
+yaw_moment_delta_aileron,1101,M,0xCE,INT16,<CEh> Yaw Moment - Aileron (Cn_da),Primary Aerodynamics,,CE
+yaw_moment_delta_rudder,1101,M,0xD0,INT32,<D0h> Rudder Control Factor (Cn_dr),Primary Aerodynamics,,D0
+yaw_moment_delta_rudder_propwash,1101,M,0xD4,DOUBLE,<D4h> Prop Effect on Rudder (Cn_dp),Primary Aerodynamics,,D4
+yaw_moment_yaw_propwash,1101,M,0xDC,DOUBLE,<DCh> Yaw moment due to propwash (damping),Primary Aerodynamics,,DC
+yaw_moment_roll,1101,M,0xE4,INT32,<E4h> Roll Adverse Yaw (Cn_p),Primary Aerodynamics,,E4
+yaw_moment_yaw_damping,1101,M,0xE8,INT16,<E8h> Yaw Damping Factor (Cn_r),Primary Aerodynamics,,E8
+side_force_slip_angle,1101,M,0xEE,INT16,<EEh> Side Force - Sideslip Angle (CY_beta),Primary Aerodynamics,,EE
+side_force_delta_rudder,1101,M,0xF0,INT16,<F0h> Side Force - Rudder (CY_dr),Primary Aerodynamics,,F0
+side_force_roll_rate,1101,M,0xF2,INT32,<F2h> Side Force - Roll Rate (CY_p),Primary Aerodynamics,,F2
+side_force_yaw_rate,1101,M,0xF6,INT32,<F6h> Side Force - Yaw Rate Skid (CY_r),Primary Aerodynamics,,F6
+n2_to_n1_table,1502,X,,TBL3D,Turbine CN1 vs CN2 and Mach No.,,,
+mach_0_corrected_commanded_ne_table,1503,X,,TBL3D,Turbine LoMach  CN2 vs Throttle and Pressure Ratio,,,
+mach_hi_corrected_commanded_ne_table,1504,X,,TBL3D,Turbine HiMach  CN2 vs Throttle and Pressure Ratio,,,
+corrected_n2_from_ff_table,1505,P,,TBLDB,Turbine CN2 vs fuel flow,,,
+n1_and_mach_on_thrust_table,1506,X,,TBL3D,Turbine Thrust Scalars vs CN1 and Mach No.,,,
+corrected_airflow_table,1507,X,,TBL3D,Ram Drag Factor vs CN1 and Mach No.,,,
+n1_to_shaft_torque_table,1508,P,,TBLDB,Turboprop Torque vs CN1,,,
+primary_nozzle_available,1521,M,0x0,INT32,Afterburner Available,Afterburner Available,,0.00
+reverser_available,1522,M,0x0,INT32,*Unknown1,Unknown,,0.00
+reverser_mach_controlled,1522,M,0x4,INT32,*Unknown2,Unknown,,4.00
+variable_inlet,1523,M,0x0,INT32,Variable Intake Available,Variable Intake Available,,0.00
+elevator_trim_elasticity_table,1525,P,,RECORD,Elevator Trim Deflection vs Q,,,
+itt_tuning_constant,1526,M,0x0,DOUBLE,ITT Scale Factor,Interstage Turbine Temperature,,0.00
+itt_peak_temperature,1526,M,0x8,DOUBLE,*ITT Limit (deg R),Interstage Turbine Temperature,,8.00
+itt_tc,1526,M,0x10,DOUBLE,ITT *Rate of Change,Interstage Turbine Temperature,,10.00
+epr_tuning_constant,1532,M,0x0,DOUBLE,EPR Scale Factor,Turbine EPR,,0.00
+epr_max,1532,M,0x8,DOUBLE,*EPR Limit,Turbine EPR,,8.00
+epr_tc,1532,M,0x10,DOUBLE,EPR Rate of Change?,Turbine EPR,,10.00
+roll_moment_delta_aileron_aoa_table,1535,P,,RECORD,Aileron Effectiveness vs AoA,,,
+yaw_moment_delta_rudder_aoa_table,1536,P,,RECORD,Rudder Effectiveness vs AoA,,,
+yaw_moment_aoa_table,1537,P,,RECORD,Yaw due to AoA rate vs AoA?,,,
+roll_moment_aoa_table,1538,P,,RECORD,Roll due to AoA rate vs AoA?,,,
+primary_nozzle_afterburner_offset,1549,P,,DOUBLE,Unknown,,,
+primary_nozzle_n1_mach_to_nozzle_pos,1549,X,,DOUBLE,,,,
