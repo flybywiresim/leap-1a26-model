@@ -27,6 +27,7 @@ Tentative roadmap is as follows (it will be updated accordingly):
 
 ## Requirements
 * Python code developed and ran in **Jupyter Notebooks** on python 3.8.3 for x64.
+* MSFS Converter developed with **AutoHotKey 1.1.30** for x64
 
 ## Additional context and Disclaimer
 For anything related to the engine and/ or this repo, do not hesitate in 'pinging' me. 
