@@ -1,0 +1,75 @@
+==================================================
+CRZ Testbench Started on 2020-12-28 13:43:12.641423
+==================================================
+
+Simconnect.dll loaded!
+
+-- AP1, ATH/R and FD Set
+
+Test [64 of 200] OBJECTIVES: weight=155000.0, cg=27.0, altitude=34000, ias=250.0, n1=79.7, RESULTS: weight=155026.1, cg=27.0, altitude=34005.5, ias=251.1, M=0.719, vs=-13.8, fn=7746.4, n1=74.7, n2=81.6, cn1=81.2, cn2=88.7, egt=498.1, ff=1701.1
+
+Test [65 of 200] OBJECTIVES: weight=165346.5, cg=27.0, altitude=26000, ias=321.8, n1=80.2, RESULTS: weight=165356.4, cg=27.0, altitude=26002.5, ias=322.0, M=0.761, vs=-7.4, fn=9844.1, n1=75.1, n2=83.8, cn1=78.5, cn2=87.5, egt=588.1, ff=1596.8
+
+Test [66 of 200] OBJECTIVES: weight=145000.0, cg=27.0, altitude=19000, ias=270.0, n1=67.5, RESULTS: weight=145065.6, cg=26.8, altitude=18999.7, ias=270.2, M=0.568, vs=0.8, fn=8023.0, n1=63.5, n2=80.0, cn1=66.0, cn2=83.2, egt=555.1, ff=1258.7
+
+Test [67 of 200] OBJECTIVES: weight=140000.0, cg=27.0, altitude=14000, ias=340.0, n1=71.6, RESULTS: weight=140050.2, cg=27.2, altitude=14002.3, ias=339.1, M=0.637, vs=-6.6, fn=12084.6, n1=69.7, n2=83.8, cn1=70.5, cn2=84.8, egt=651.0, ff=1379.3
+
+Test [68 of 200] OBJECTIVES: weight=149914.16, cg=27.0, altitude=36000, ias=247.5, n1=80.8, RESULTS: weight=149902.9, cg=27.1, altitude=36000.2, ias=248.0, M=0.741, vs=-0.9, fn=5940.2, n1=70.6, n2=79.6, cn1=77.2, cn2=87.1, egt=460.5, ff=1561.0
+
+Test [69 of 200] OBJECTIVES: weight=167551.12, cg=27.0, altitude=26000, ias=312.9, n1=79.3, RESULTS: weight=167565.6, cg=26.8, altitude=26002.1, ias=313.4, M=0.744, vs=-7.0, fn=9231.6, n1=73.4, n2=83.0, cn1=76.9, cn2=86.9, egt=574.3, ff=1547.7
+
+Test [70 of 200] OBJECTIVES: weight=100000.0, cg=27.0, altitude=29000, ias=290.0, n1=75.4, RESULTS: weight=100033.0, cg=26.7, altitude=29002.8, ias=289.4, M=0.735, vs=-7.9, fn=8238.8, n1=72.7, n2=82.0, cn1=77.2, cn2=87.1, egt=538.2, ff=1562.8
+
+Test [71 of 200] OBJECTIVES: weight=150000.0, cg=27.0, altitude=12000, ias=270.0, n1=62.0, RESULTS: weight=150068.5, cg=27.1, altitude=12002.9, ias=270.4, M=0.498, vs=-15.5, fn=8205.2, n1=59.8, n2=79.7, cn1=61.0, cn2=81.2, egt=593.6, ff=1133.4
+
+Test [72 of 200] OBJECTIVES: weight=135000.0, cg=27.0, altitude=24000, ias=330.0, n1=78.1, RESULTS: weight=135017.5, cg=26.9, altitude=24004.3, ias=329.6, M=0.748, vs=-5.7, fn=11123.3, n1=76.2, n2=84.6, cn1=79.1, cn2=87.8, egt=611.6, ff=1622.3
+
+Test [73 of 200] OBJECTIVES: weight=99207.9, cg=27.0, altitude=14000, ias=350.0, n1=71.9, RESULTS: weight=99266.8, cg=26.8, altitude=14001.3, ias=348.8, M=0.653, vs=-1.6, fn=12670.6, n1=71.0, n2=84.4, cn1=71.7, cn2=85.2, egt=661.9, ff=1411.5
+
+Test [74 of 200] OBJECTIVES: weight=97003.28, cg=27.0, altitude=26000, ias=308.4, n1=75.5, RESULTS: weight=97047.9, cg=26.9, altitude=26000.3, ias=307.7, M=0.731, vs=-9.4, fn=9191.9, n1=73.0, n2=82.8, cn1=76.6, cn2=86.9, egt=569.3, ff=1543.1
+
+Test [75 of 200] OBJECTIVES: weight=160000.0, cg=27.0, altitude=30000, ias=280.0, n1=78.9, RESULTS: weight=160032.9, cg=27.0, altitude=30002.6, ias=280.8, M=0.731, vs=-11.2, fn=9454.8, n1=76.8, n2=83.4, cn1=81.9, cn2=88.9, egt=551.9, ff=1724.1
+
+Test [76 of 200] OBJECTIVES: weight=116844.86, cg=27.0, altitude=26000, ias=330.8, n1=79.7, RESULTS: weight=116883.4, cg=26.9, altitude=26002.2, ias=330.9, M=0.779, vs=-12.9, fn=10533.2, n1=77.1, n2=84.6, cn1=80.3, cn2=88.2, egt=603.9, ff=1653.4
+
+Test [77 of 200] OBJECTIVES: weight=155000.0, cg=27.0, altitude=16000, ias=280.0, n1=66.8, RESULTS: weight=155062.6, cg=27.0, altitude=16001.3, ias=280.3, M=0.555, vs=-8.6, fn=8623.5, n1=63.2, n2=80.5, cn1=65.1, cn2=82.8, egt=580.7, ff=1235.0
+
+Test [78 of 200] OBJECTIVES: weight=165000.0, cg=27.0, altitude=11000, ias=350.0, n1=71.2, RESULTS: weight=165045.5, cg=27.0, altitude=11003.0, ias=349.3, M=0.619, vs=-2.5, fn=13057.8, n1=69.3, n2=84.2, cn1=69.5, cn2=84.4, egt=676.0, ff=1351.5
+
+Test [79 of 200] OBJECTIVES: weight=140000.0, cg=27.0, altitude=15000, ias=350.0, n1=73.6, RESULTS: weight=140053.1, cg=27.2, altitude=15002.1, ias=349.0, M=0.665, vs=-2.8, fn=12734.2, n1=71.9, n2=84.6, cn1=72.8, cn2=85.6, egt=659.6, ff=1441.0
+
+Test [80 of 200] OBJECTIVES: weight=136686.44, cg=27.0, altitude=22000, ias=330.0, n1=76.5, RESULTS: weight=136725.8, cg=27.1, altitude=22001.0, ias=329.9, M=0.721, vs=-11.8, fn=10589.3, n1=73.4, n2=83.8, cn1=75.8, cn2=86.6, egt=609.1, ff=1520.6
+
+Test [81 of 200] OBJECTIVES: weight=115000.0, cg=27.0, altitude=18000, ias=270.0, n1=64.7, RESULTS: weight=115066.8, cg=27.1, altitude=17999.0, ias=270.2, M=0.557, vs=0.6, fn=7576.4, n1=62.2, n2=79.6, cn1=64.4, cn2=82.5, egt=556.0, ff=1216.8
+
+Test [82 of 200] OBJECTIVES: weight=155000.0, cg=27.0, altitude=13000, ias=350.0, n1=72.5, RESULTS: weight=155046.9, cg=27.0, altitude=13002.6, ias=349.1, M=0.642, vs=-6.0, fn=12728.4, n1=70.3, n2=84.3, cn1=70.8, cn2=84.9, egt=666.0, ff=1387.3
+
+Test [83 of 200] OBJECTIVES: weight=100000.0, cg=27.0, altitude=31000, ias=250.0, n1=71.6, RESULTS: weight=100045.0, cg=26.7, altitude=31002.0, ias=250.2, M=0.672, vs=-9.5, fn=6193.8, n1=66.9, n2=79.1, cn1=72.3, cn2=85.4, egt=476.1, ff=1421.5
+
+Test [84 of 200] OBJECTIVES: weight=105821.76, cg=27.0, altitude=14000, ias=350.0, n1=72.0, RESULTS: weight=105869.6, cg=27.0, altitude=14003.1, ias=349.7, M=0.655, vs=-1.5, fn=13003.9, n1=71.5, n2=84.6, cn1=72.2, cn2=85.4, egt=665.3, ff=1424.8
+
+Test [85 of 200] OBJECTIVES: weight=167551.12, cg=27.0, altitude=28000, ias=308.5, n1=80.5, RESULTS: weight=167580.3, cg=26.8, altitude=27999.9, ias=309.0, M=0.763, vs=-2.9, fn=9986.4, n1=77.1, n2=84.1, cn1=81.2, cn2=88.5, egt=580.6, ff=1687.6
+
+Test [86 of 200] OBJECTIVES: weight=135000.0, cg=27.0, altitude=16000, ias=310.0, n1=69.2, RESULTS: weight=135060.6, cg=26.9, altitude=16000.5, ias=309.6, M=0.608, vs=-6.0, fn=9694.6, n1=66.2, n2=81.9, cn1=67.7, cn2=83.7, egt=605.8, ff=1300.7
+
+Test [87 of 200] OBJECTIVES: weight=167551.12, cg=27.0, altitude=28000, ias=300.0, n1=79.7, RESULTS: weight=167573.6, cg=26.8, altitude=28002.1, ias=301.1, M=0.746, vs=-10.8, fn=8999.0, n1=74.1, n2=82.9, cn1=78.2, cn2=87.5, egt=559.2, ff=1591.6
+
+Test [88 of 200] OBJECTIVES: weight=95116.12528, cg=27.0, altitude=14000, ias=350.0, n1=71.8, RESULTS: weight=95172.9, cg=26.8, altitude=14002.0, ias=349.5, M=0.654, vs=3.7, fn=13056.9, n1=71.6, n2=84.6, cn1=72.2, cn2=85.4, egt=665.6, ff=1426.8
+
+Test [89 of 200] OBJECTIVES: weight=105000.0, cg=27.0, altitude=17000, ias=260.0, n1=61.9, RESULTS: weight=105072.3, cg=27.1, altitude=17001.7, ias=260.4, M=0.528, vs=-7.4, fn=7324.1, n1=60.6, n2=79.1, cn1=62.8, cn2=81.9, egt=553.6, ff=1176.2
+
+Test [90 of 200] OBJECTIVES: weight=155000.0, cg=27.0, altitude=22000, ias=310.0, n1=74.9, RESULTS: weight=155022.1, cg=27.0, altitude=22003.8, ias=309.5, M=0.681, vs=-2.0, fn=10127.0, n1=71.5, n2=83.0, cn1=74.2, cn2=86.1, egt=589.4, ff=1482.7
+
+Test [91 of 200] OBJECTIVES: weight=108026.38, cg=27.0, altitude=22000, ias=334.7, n1=76.3, RESULTS: weight=108070.0, cg=26.9, altitude=22000.5, ias=334.2, M=0.729, vs=-6.5, fn=11035.7, n1=74.4, n2=84.3, cn1=76.8, cn2=87.0, egt=616.8, ff=1551.4
+
+Test [92 of 200] OBJECTIVES: weight=135000.0, cg=27.0, altitude=16000, ias=290.0, n1=66.8, RESULTS: weight=135064.9, cg=26.9, altitude=15997.6, ias=290.0, M=0.573, vs=4.4, fn=8665.2, n1=63.7, n2=80.7, cn1=65.5, cn2=82.9, egt=586.4, ff=1242.8
+
+Test [93 of 200] OBJECTIVES: weight=120000.0, cg=27.0, altitude=15000, ias=270.0, n1=62.6, RESULTS: weight=120072.7, cg=27.0, altitude=15001.2, ias=270.4, M=0.527, vs=-5.4, fn=8019.4, n1=61.2, n2=79.8, cn1=62.9, cn2=82.0, egt=575.6, ff=1179.9
+
+Test [94 of 200] OBJECTIVES: weight=134481.82, cg=27.0, altitude=32000, ias=290.9, n1=80.4, RESULTS: weight=134496.0, cg=26.9, altitude=32002.8, ias=291.2, M=0.784, vs=-9.9, fn=8123.5, n1=75.6, n2=82.6, cn1=80.7, cn2=88.3, egt=536.0, ff=1665.5
+
+Test [95 of 200] OBJECTIVES: weight=150000.0, cg=27.0, altitude=17000, ias=280.0, n1=67.3, RESULTS: weight=150060.9, cg=27.1, altitude=17003.7, ias=280.1, M=0.565, vs=-19.0, fn=8566.1, n1=63.7, n2=80.5, cn1=65.7, cn2=83.0, egt=575.2, ff=1251.2
+
+Test [96 of 200] OBJECTIVES: weight=170000.0, cg=27.0, altitude=26000, ias=300.0, n1=78.0, RESULTS: weight=170007.8, cg=27.1, altitude=26003.2, ias=299.7, M=0.715, vs=-5.8, fn=8978.9, n1=72.2, n2=82.5, cn1=75.9, cn2=86.7, egt=560.9, ff=1525.1
+
+Test [97 of 200] OBJECTIVES: weight=143300.3, cg=27.0, altitude=30000, ias=287.3, n1=78.4, RESULTS: weight=143335.6, cg=26.9, altitude=30002.6, ias=288.1, M=0.747, vs=-12.9, fn=8614.9, n1=74.5, n2=82.6, cn1=79.3, cn2=87.9, egt=541.8, ff=1627.1
