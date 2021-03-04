@@ -21,11 +21,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         self.setupUi(self)
+        #self.centralwidget.setStyleSheet("QWidget {background-color: rgb(75, 75, 75);}")
+        self.tabCRZ.setStyleSheet("QWidget {background-color: rgb(250, 250, 250); font: 11px serif;}")
+        #self.frame.setStyleSheet("QFrame {background-color: rgb(150, 150, 150);}")
+        self.label.setStyleSheet("QLabel {font: 12px; font-weight: bold;}")
+        self.plainTextEdit.setStyleSheet("QPlainTextEdit {background-color: rgb(200, 200, 200); border: 1px solid gray;}")
         self.pushButton.clicked.connect(self.cruise)
         self.pushButton_2.clicked.connect(self.quit)
         
     def log(self, msg, typ):
-        self.plainTextEdit.setStyleSheet("QPlainTextEdit {background-color: #E5E5E5; color: blue; font: 11px serif;}")
+        self.plainTextEdit.setStyleSheet("QPlainTextEdit {background-color: rgb(200, 200, 200); border: 1px solid gray; color: blue; font: 11px serif;}")
         if (typ == 1):
             self.plainTextEdit.appendPlainText(msg)
         else:
@@ -40,7 +45,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         self.statusBar().repaint()
         
     def dumpToFile(self):
-        f = open("test.txt", "w")
+        f = open(self.lineOutFile.text(), "w")
         dump = self.plainTextEdit.toPlainText()
         f.write(dump)
         f.close()
@@ -49,24 +54,29 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
         
     # Cruise test function
     def cruise(self):
-        rnd = 0
-        points = 200
-        random.seed(0)
-        cg = 0.27
-        error_alt = 1
-        error_tas = 1
+        rnd = self.radioButton.isChecked()
+        points = int(self.linePoints.text())
+        random.seed(int(self.lineSeed.text()))
+        cg = float(self.lineCG.text())/100
+        error_alt = 1000
+        error_tas = 1000
         actual_vs = 1000
+        limit_alt = float(self.lineAltErr.text())
+        limit_tas = float(self.lineTASErr.text())
+        limit_vs = float(self.lineVSErr.text())
+        inFile = "data/" + self.lineInFile.text()
+        clb = float(self.lineCLB.text())
         n = 1
-        
+       
         # Read the Aircraft Data file
-        df = data.data_read('CRZ')
+        df = data.data_read('CRZ', inFile)
         logger.test_header(self, "CRZ")
-        if os.path.exists("test.txt"):
-            os.remove("test.txt")
+        if os.path.exists(self.lineOutFile.text()):
+            os.remove(self.lineOutFile.text())
             
         start_time = time.time()
         
-        if (rnd == 0):
+        if (rnd == False):
             points = len(df.index)-1
             
         # Create the SimConnect link
@@ -80,11 +90,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
     
         # Check and set initial aircraft settings:
         # AP1 ON, ATHR ON, FD ON & CLB
-        ac_init(aq, ae)
+        ac_init(aq, ae, clb)
         logger.test_init(self, 1)
             
         for i in range(n, points+1):
-            if (rnd == 1):
+            if (rnd == True):
                 # Random Aircraft situation
                 if (n == i):
                     start = n
@@ -126,13 +136,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                     event_to_trigger = ae.find("AP_MASTER")
                     if (abs(actual_fcu_speed-tas) > 2):
                         crz_alt_tas(sm, aq, ae, altitude, tas)
-                        #print("FCU Trigger")
+                        # #print("FCU Trigger")
              
-                    if (counter == 0):
-                        #print("AP Trigger")
-                        event_to_trigger()
-                        time.sleep(1)
-                        event_to_trigger()
+                    # if (counter == 0):
+                        # #print("AP Trigger")
+                        # event_to_trigger()
+                        # time.sleep(1)
+                        # event_to_trigger()
                     
                 actual_alt = float(aq.get("INDICATED_ALTITUDE"))
                 actual_tas = float(aq.get("AIRSPEED_TRUE"))
@@ -141,7 +151,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                 error_tas = round(abs((actual_tas-tas)/tas)*100,3)      
                 
                 # Stability has been reached 
-                if (error_alt < 0.5 and error_tas < 0.5 and abs(actual_vs) < 10):
+                if (error_alt < limit_alt and error_tas < limit_tas and abs(actual_vs) < limit_vs):
                     actual_n1 = float(aq.get("TURB_ENG_N1:1"))
                     actual_n2 = float(aq.get("TURB_ENG_N2:1"))
                     actual_n1_cor = float(aq.get("TURB_ENG_CORRECTED_N1:1"))
@@ -221,7 +231,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
             logger.test_actual(self, actual_weight, actual_cg, actual_alt, actual_tas, actual_mach, actual_vs, actual_fn, actual_n1, actual_n2, actual_n1_cor, actual_n2_cor, actual_egt, actual_ff, i, points)
             
             time.sleep(0.5)
-            os.system('copy test.txt test.bck >NUL')
+            os.system('copy ' + self.lineOutFile.text() + ' test.bck >NUL')
             self.dumpToFile()
             time.sleep(0.5)
             
@@ -236,8 +246,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_mainWindow):
                 else:
                     eta = eta
                     subject = "FBW Tester: ETA is " + str(eta) + " seconds"
-                    
-                gmail.gmail(subject)
+                outFile = self.lineOutFile.text()
+                gmail.gmail(subject, outFile)
             
         #sm.quit()
         logger.test_loop(self, 0)

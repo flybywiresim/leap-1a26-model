@@ -1,7 +1,7 @@
 import time
 from SimConnect import *
 
-def ac_init(aq, ae):
+def ac_init(aq, ae, clb):
     # Check and set initial aircraft settings:
     # AP1 ON, ATHR ON, FD ON & CLB
     AP = aq.get("AUTOPILOT_MASTER")
@@ -22,8 +22,8 @@ def ac_init(aq, ae):
         event_to_trigger = ae.find("TOGGLE_FLIGHT_DIRECTOR")
         event_to_trigger()
     
-    aq.set("GENERAL_ENG_THROTTLE_LEVER_POSITION:1", 89.8)
-    aq.set("GENERAL_ENG_THROTTLE_LEVER_POSITION:2", 89.8)
+    aq.set("GENERAL_ENG_THROTTLE_LEVER_POSITION:1", clb)
+    aq.set("GENERAL_ENG_THROTTLE_LEVER_POSITION:2", clb)
     
     aq.set("TRUE_AIRSPEED_SELECTED",1)
     
@@ -147,5 +147,5 @@ def W_n_B(aq, weight, cg):
             below=0
             
         #print(" CG= " + str(actual_cg) + "below= " + str(below) + " Pump= " + str(pump) + " Tol= " + str(cg_tolerance))
-        
+	
     return

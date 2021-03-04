@@ -2,7 +2,7 @@ import smtplib
 from email.message import EmailMessage
 import ssl
 
-def gmail(subject):
+def gmail(subject, outFile):
     # User configuration
     sender_email = 'roldan5150@gmail.com'
     receiver_email = 'roldan5150@gmail.com'
@@ -10,7 +10,7 @@ def gmail(subject):
     msg = EmailMessage()
 
     # Email text
-    f = open("test.txt", "r")
+    f = open(outFile, "r")
     msg.set_content(f.read())
     msg['Subject'] = subject
     msg['From'] = "roldan5150@gmail.com"

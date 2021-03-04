@@ -1,8 +1,8 @@
 import pandas as pd
 import random
         
-def data_read(phase):
-    df = pd.read_csv("data/a320-251n_0p8.csv")
+def data_read(phase, inFile):
+    df = pd.read_csv(inFile)
     df = df.rename(columns = {'ALT.':'Alt', 'MACH':'Mach'}, inplace=False)
     df = df[df['PHASE'] == phase]
     df = df.reset_index(drop=True)   

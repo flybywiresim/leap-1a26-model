@@ -5,7 +5,6 @@ sm = SimConnect()
 aq = AircraftRequests(sm, _time=0)
 ae = AircraftEvents(sm)
 
-
 # target_speed = 260 #240 - 260
 # event_to_trigger = ae.find("AP_SPD_VAR_SET")  
 # event_to_trigger(target_speed)
@@ -44,8 +43,8 @@ if (FD == 0):
 aq.set("GENERAL_ENG_THROTTLE_LEVER_POSITION:1", 89.8)
 aq.set("GENERAL_ENG_THROTTLE_LEVER_POSITION:2", 89.8)
     
-altitude = 38000
-tas = 344
+altitude = 36000
+tas = 459
 
 # Altitude - set FCU Altitude, choose Selected mode 
 # & force final Altitude
@@ -76,19 +75,19 @@ time.sleep(0.5)
 aq.set("VERTICAL_SPEED", 0)
 time.sleep(0.5)
 
-aq.set("FUEL_TANK_LEFT_AUX_QUANTITY", 228)
-aq.set("FUEL_TANK_RIGHT_AUX_QUANTITY", 228)
-aq.set("FUEL_TANK_LEFT_MAIN_QUANTITY", 1019)
-aq.set("FUEL_TANK_RIGHT_MAIN_QUANTITY", 1019)
-aq.set("FUEL_TANK_CENTER_QUANTITY", 0)
+# aq.set("FUEL_TANK_LEFT_AUX_QUANTITY", 226.67)
+# aq.set("FUEL_TANK_RIGHT_AUX_QUANTITY", 226.67)
+# aq.set("FUEL_TANK_LEFT_MAIN_QUANTITY", 159.84)
+# aq.set("FUEL_TANK_RIGHT_MAIN_QUANTITY", 159.84)
+# aq.set("FUEL_TANK_CENTER_QUANTITY", -6)
 
-# Introducing Payload - Forwards Baggage and Rear Baggage
-aq.set("PAYLOAD_STATION_WEIGHT:1", 0)
-aq.set("PAYLOAD_STATION_WEIGHT:2", 0)
-aq.set("PAYLOAD_STATION_WEIGHT:3", 0)
-aq.set("PAYLOAD_STATION_WEIGHT:4", 16700)
-aq.set("PAYLOAD_STATION_WEIGHT:5", 0)
-aq.set("PAYLOAD_STATION_WEIGHT:6", 19490)
+# # Introducing Payload - Forwards Baggage and Rear Baggage
+# aq.set("PAYLOAD_STATION_WEIGHT:1", 0)
+# aq.set("PAYLOAD_STATION_WEIGHT:2", 0)
+# aq.set("PAYLOAD_STATION_WEIGHT:3", 0)
+# aq.set("PAYLOAD_STATION_WEIGHT:4", 3890.142)
+# aq.set("PAYLOAD_STATION_WEIGHT:5", 0)
+# aq.set("PAYLOAD_STATION_WEIGHT:6", 4140.142)
     
 event_to_trigger = ae.find("AP_MASTER")
 event_to_trigger()
