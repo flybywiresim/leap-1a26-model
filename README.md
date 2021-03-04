@@ -12,17 +12,44 @@ Please be aware we are still within the **assessment** and **analysis** phase of
 
 Stay tuned for updates!
 
+## Legend
+:heavy_check_mark: Issue/ feature completely solved/ developed and integrated in the master in its final and definitive version
+:warning: Issue/ feature partially solved/ developed and integrated in the master or dev/ experimental branch
+:x: Issue/ feature pending
+:hourglass: Work in progress
+
 ## Roadmap
 Tentative roadmap is as follows (it will be updated accordingly):
 
-- [x] Understand Asobo's Engine model approach (basically engines.cfg)
-- [x] Gather data and information on the LEAP-1A (Official/ Unofficial)
-- [x] Physical/ theoretical modeling
-- [ ] External model emulation with Matlab/ Simulink (through Simconnect)
-    - [ ] Engine coarse testing (FCOM/ RL behaviour)
-    - [ ] Engine fine-tune and specifities (spool-times, random behaviours, ...)
-    - [ ] Visual parameter integration and validation (i.e. ECAM, ...)
-- [ ] External model simulation with SimConnect (WASM)
+- [x] Understand Asobo's Engine model approach (basically engines.cfg) :heavy_check_mark:
+- [x] Gather data and information on the LEAP-1A (Official/ Unofficial) :heavy_check_mark:
+- [x] Physical/ theoretical modeling :heavy_check_mark:
+
+#### Engine Primary Parameter Modeling
+ - [x] N1 and N2 :warning: 
+ - [x] EGT :warning: 
+ - [x] Fuel Flow :warning: 
+  
+#### Engine Secondary Parameter Modeling
+ - [ ] Oil Qty, Pressure and Temperature 
+ - [ ] Vibration Parameters
+ - [ ] Nacelle Temperature
+
+#### FADEC/ EEC
+ - [ ] Start-up and Ignition 
+    - [ ] Auto :hourglass:
+    - [ ] Manual 
+ - [ ] Thrust Limits :hourglass:
+ - [ ] EGT and OAT Limiting
+ - [ ] Fuel Injector/ Dumper
+ - [ ] Idle Management
+     - [x] Minimum Idle :warning:
+     - [ ] Approach Idle
+ - [ ] Thrust Reverse Management
+
+#### Misc/ Non-Normal Ops
+ - [ ] Independent Engine Control
+ - [ ] Windmilling/ Gravity Feeding
 
 
 ## Requirements
