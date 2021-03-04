@@ -14,8 +14,11 @@ Stay tuned for updates!
 
 ## Legend
 :heavy_check_mark: Issue/ feature completely solved/ developed and integrated in the master in its final and definitive version
+
 :warning: Issue/ feature partially solved/ developed and integrated in the master or dev/ experimental branch
+
 :x: Issue/ feature pending
+
 :hourglass: Work in progress
 
 ## Roadmap
