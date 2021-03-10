@@ -6,7 +6,6 @@ using namespace std;
 class SimVars;
 class Ratios;
 class Polynomial;
-//class Debug;
 
 class EngineControl
 {
@@ -14,7 +13,6 @@ private:
     SimVars* simVars;
     Ratios* ratios;
     Polynomial* poly;
-    //Debug* debug;
 
     void flightPhase() {
         double simOnGround = simVars->getSimOnGround();
@@ -22,9 +20,6 @@ private:
         double verticalSpeed = simVars->getVerticalSpeed();
         double actualFlightPhase = simVars->getActualPhase();
         double preFlightPhase = simVars->getPrePhase();
-
-        /*debug->text("PRE = ");
-        debug->text(std::to_string(preFlightPhase));*/
 
         // Checking aircraft initial state
         if (preFlightPhase == -1) {
@@ -68,14 +63,6 @@ private:
 
         simVars->setActualPhase(actualFlightPhase);
 
-        /*debug->text(" ACTUAL = ");
-        debug->text(std::to_string(actualFlightPhase));
-        debug->text(" ALT = ");
-        debug->text(std::to_string(altitude));
-        debug->text(" VS = ");
-        debug->text(std::to_string(verticalSpeed));
-        debug->text(" GND = ");
-        debug->text(std::to_string(simOnGround));*/
     }
     /// <summary>
     /// Engine Imbalance Digital Word:
@@ -126,10 +113,6 @@ private:
             
             simVars->setEngineImbalance(stod(imbalance));
         }
-
-       
-         
-
     }
 
     void updateEGT(int idx)
@@ -162,8 +145,6 @@ private:
 
         if (idx == 1) {
             prevFuelFlow = simVars->getEngine1FF(); // in Kgs/hr
-            /*debug->text(" PAST FF = ");
-            debug->text(std::to_string(prevFuelFlow));*/
         }
         else {
             prevFuelFlow = simVars->getEngine2FF(); // in Kgs/hr
@@ -185,9 +166,6 @@ private:
 
         if (idx == 1) {
             simVars->setEngine1FF(flow_out);
-            /*debug->text(" FF OUT = ");
-            debug->text(std::to_string(flow_out));
-            debug->text("\n");*/
         }
         else {
             simVars->setEngine2FF(flow_out);
@@ -218,12 +196,14 @@ public:
 
     void update()
     {
+        Timer timer;
         flightPhase();
         updateEGT(1);
         updateEGT(2);
         updateFF(1);
         updateFF(2);
 		updateCrank();
+        timer.Stop();
 
         //double tc = 700;
         //SimConnect_SetDataOnSimObject(hSimConnect, DATA_DEFINE_ID::DEFINITION_ENGINE, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(double), &tc);

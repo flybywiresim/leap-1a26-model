@@ -1,16 +1,12 @@
 #ifndef _REGPOLYNOMIALS_H_
 #define _REGPOLYNOMIALS_H_
 
-//class Debug;
-
 /// <summary>
 /// A collection of ression polynomials for engine parameters
 /// </summary>
 class Polynomial
 {
 public:
-	//Debug* debug;
-
 	double egtNX(double cn1, double mach, double alt, double isa) {
 		double egt_coef[36] = { 439.19479303830013, 3.73886284e-04,-6.19083094e+00,-3.68383912e+01,\
 								-2.07101387e-03,3.06556157e+00,1.10553060e-01,3.22190024e+00,5.45688444e-05,\
@@ -96,13 +92,6 @@ public:
 		double flow_array[4] = { flow_to, flow_clb, flow_crz, flow_dsc };
 		actPhaseFF = flow_array[int(actualFlightPhase)];
 
-		/*if (idx == 1) {
-			debug->text(" PRE FF = ");
-			debug->text(std::to_string(flow_array[int(preFlightPhase)] * 0.453592));
-			debug->text(" ACT FF = ");
-			debug->text(std::to_string(actPhaseFF * 0.453592));
-		}*/
-		
 		return actPhaseFF;
 	}
 };

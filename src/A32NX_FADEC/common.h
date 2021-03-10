@@ -37,16 +37,33 @@ public:
 	}
 };
 
-//class Debug
-//{
-//public:
-//	void text(std::string msg) {
-//		std::ofstream outfile;
-//		outfile.open("\\work\\test.txt", std::ios::app); // append instead of overwrite
-//		//outfile << msg << std::flush;
-//		outfile.close();
-//	}
-//};
+// Timer Class for Performance Profiling purposes
+class Timer
+{
+public:
+	Timer() 
+	{
+		m_StartTimepoint = std::chrono::high_resolution_clock::now();
+	}
+
+	~Timer()
+	{
+		Stop();
+	}
+	void Stop()
+	{
+		auto endTimepoint = std::chrono::high_resolution_clock::now();
+
+		auto start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
+		auto end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
+
+		auto duration = end - start;
+		double ms = duration * 0.001;
+		std::cout << "WASM: " << duration << "us (" << ms << "ms)\n" << std::flush;
+	}
+private:
+	std::chrono::time_point< std::chrono::high_resolution_clock> m_StartTimepoint;
+};
 
 template<typename T/*, typename = std::enable_if_t<std::is_integral_v<T>>*/>
 std::string to_string_with_zero_padding(const T& value, std::size_t total_length)

@@ -18,12 +18,10 @@
 #include <MSFS\MSFS_Render.h>
 #include <MSFS\Legacy\gauges.h>
 #include <SimConnect.h>
-#include <fstream>
 #include <string>
-#include <cstdlib>
-#include <ctime>
-#include <map>
 #include <math.h>
+#include <iostream> // For PerfProf
+#include <chrono> // For PerfProf
 
 #include "SimVars.h"
 #include "common.h"

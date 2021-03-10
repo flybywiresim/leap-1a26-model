@@ -1,1 +1,2 @@
 D:\Projects\VS\A32NX_FADEC\MSFS\Release\A32NX_FADEC.wasm
+D:\Projects\Github\leap-1a26-model\src\A32NX_FADEC\MSFS\Release\A32NX_FADEC.wasm
