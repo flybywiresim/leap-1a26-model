@@ -1858,7 +1858,7 @@ var A320_Neo_UpperECAM;
         getEGTGaugeValue() {	
             const engineId = this.index + 1;
 	
-			const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "");
+			const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "Number");
 
 			if (parseInt(imbalance.toString().substr(0, 1)) == engineId) {
 				var egt_i = parseInt(imbalance.toString().substr(1, 2));
@@ -2093,7 +2093,7 @@ var A320_Neo_UpperECAM;
             return "%";
         }
         getValue(_engine) {
-			const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "");
+			const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "Number");
 
 			if (parseInt(imbalance.toString().substr(0, 1)) == _engine) {
 				var n2_i = parseFloat(imbalance.toString().substr(5, 2))/100;
@@ -2131,7 +2131,7 @@ var A320_Neo_UpperECAM;
             return _isMetric ? "KG/H" : "LBS/H";
         }
         getValue(_engine, _conversion) {
-            const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "");
+            const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "Number");
 
 			if (parseInt(imbalance.toString().substr(0, 1)) == _engine) {
 				var ff_i = parseInt(imbalance.toString().substr(3, 2));
@@ -2139,7 +2139,7 @@ var A320_Neo_UpperECAM;
 			} else {
 				var ff_i = parseInt(0);
 			}
-			let ff = SimVar.GetSimVarValue("L:A32NX_ENGINE_FF:" + _engine, "kg per hour")-ff_i;
+			let ff = SimVar.GetSimVarValue("L:A32NX_ENGINE_FF:" + _engine, "kilogram")-ff_i;
             ff -= ff % 20;
             if (ff < 0) {
                 return 0;
