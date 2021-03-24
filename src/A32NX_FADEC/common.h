@@ -14,25 +14,23 @@ HANDLE hSimConnect;
 class Ratios
 {
 public:
-	SimVars* simVars;
-
-	FLOAT64 theta() {
-		double t = (288.15 - (1.98 * this->simVars->getPlaneAltitude() / 1000)) / 288.15;
+	FLOAT64 theta(double altitude) {
+		double t = (288.15 - (1.98 * altitude / 1000)) / 288.15;
 		return t;
 	}
 
-	FLOAT64 delta() {
-		double d = pow(this->theta(), 5.256);
+	FLOAT64 delta(double altitude) {
+		double d = pow(this->theta(altitude), 5.256);
 		return d;
 	}
 
-	FLOAT64 theta2() {
-		double t2 = this->theta() * (1 + 0.2 * pow(this->simVars->getMach(), 2));
+	FLOAT64 theta2(double mach, double altitude) {
+		double t2 = this->theta(altitude) * (1 + 0.2 * pow(mach, 2));
 		return t2;
 	}
 
-	FLOAT64 delta2() {
-		double d2 = this->delta() * pow((1 + 0.2 * pow(this->simVars->getMach(), 2)), 3.5);
+	FLOAT64 delta2(double mach, double altitude) {
+		double d2 = this->delta(altitude) * pow((1 + 0.2 * pow(mach, 2)), 3.5);
 		return d2;
 	}
 };
@@ -73,4 +71,20 @@ std::string to_string_with_zero_padding(const T& value, std::size_t total_length
 		str.insert(str.front() == '-' ? 1 : 0, total_length - str.length(), '0');
 	return str;
 }
+
+double imbalance_extractor(double imbalance, int parameter)
+{
+	double reg = 0;
+
+	parameter = 4 - parameter;
+
+	while (parameter > 0) {
+		reg = int(imbalance) % 100;
+		imbalance /= 100;
+		parameter--;
+	}
+
+	return reg;
+}
+
 #endif

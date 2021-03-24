@@ -339,6 +339,10 @@ D:\MSFS SDK\SimConnect SDK\include\SimConnect.h(699,44): message : expanded from
   In file included from ./FadecGauge.h:28:
 ./RegPolynomials.h(44,10): warning : unused variable 'flow_out' [-Wunused-variable]
   In file included from FadecGauge.cpp:4:
+  In file included from ./FadecGauge.h:29:
+./EngineControl.h(301,16): warning : unused variable 'ff' [-Wunused-variable]
+./EngineControl.h(302,16): warning : unused variable 'EngTime' [-Wunused-variable]
+  In file included from FadecGauge.cpp:4:
   In file included from ./FadecGauge.h:19:
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7149,19): warning : unused function 'query_routine_610' [-Wunused-function]
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7154,19): warning : unused function 'install_routine_610' [-Wunused-function]
@@ -347,4 +351,7 @@ D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7164,19): warning : unused functio
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7169,19): warning : unused function 'generate_routine_610' [-Wunused-function]
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7174,19): warning : unused function 'draw_routine_610' [-Wunused-function]
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7179,19): warning : unused function 'kill_routine_610' [-Wunused-function]
+  In file included from FadecGauge.cpp:4:
+  In file included from ./FadecGauge.h:29:
+./EngineControl.h(36,12): warning : private field 'egtNX' is not used [-Wunused-private-field]
   A32NX_FADEC.vcxproj -> D:\Projects\Github\leap-1a26-model\src\A32NX_FADEC\MSFS\Release\A32NX_FADEC.wasm

@@ -33,7 +33,7 @@ using namespace std;
 class FadecGauge
 {
 private:
-    SimVars* simVars;
+    //SimVars* simVars;
     bool isConnected = false;
 
     /// <summary>
@@ -47,7 +47,9 @@ private:
         {
             printf("SimConnect connected.\r\n");
 
-            //SimConnect_AddToDataDefinition(hSimConnect, DATA_DEFINE_ID::DEFINITION_ENGINE, "TURB ENG CORRECTED FF:1", "Pounds per hour");
+            // SimConnect Tanker Definitions
+            SimConnect_AddToDataDefinition(hSimConnect, DataTypesID::FuelControls, "FUEL TANK LEFT MAIN QUANTITY", "Gallons");
+            SimConnect_AddToDataDefinition(hSimConnect, DataTypesID::FuelControls, "FUEL TANK RIGHT MAIN QUANTITY", "Gallons");
 
             printf("SimConnect registrations complete.\r\n");
             return true;
@@ -71,7 +73,7 @@ public:
             return false;
         }
 
-        EngCntrlInst.init();
+        EngCntrlInst.initialize();
         isConnected = true;
         /// SimConnect_CallDispatch(hSimConnect, HandleAxisEvent, this);
 
@@ -86,7 +88,7 @@ public:
     bool OnUpdate(double deltaTime)
     {
         if (isConnected == true) {
-            EngCntrlInst.update();
+            EngCntrlInst.update(deltaTime);
         }
 
         return true;
@@ -98,9 +100,10 @@ public:
     /// <returns>True if succesful, false otherwise.</returns>
     bool KillFADEC()
     {
+        EngCntrlInst.terminate();
         isConnected = false;
-        this->simVars->setPrePhase(-1);
-        this->simVars->setActualPhase(-1);
+        //this->simVars->setPrePhase(-1);
+        //this->simVars->setActualPhase(-1);
         unregister_all_named_vars();
         return SUCCEEDED(SimConnect_Close(hSimConnect));
     }

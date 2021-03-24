@@ -77,12 +77,12 @@ public:
 
 		// TO fuel flow
 		flow_to = flow_base * cfm2leap * ((0.00000929 * pow(cn1, 3)) - (0.00169479 * pow(cn1, 2)) + (0.08443855 * cn1) + 0.42353721);
-		
+
 		// CLB fuel flow
 		flow_clb = flow_base * cfm2leap * 1.033873582;
 
 		// CRZ fuel flow
-		flow_crz = flow_base * cfm2leap * 0.997782107;
+		flow_crz = flow_base * cfm2leap * 0.9989733865;
 
 		// DSC fuel flow
 		flow_dsc = flow_base * cfm2leap * ((0.00003731 * pow(cn1, 2)) - (0.01212914 * cn1) + 1.65688177);
