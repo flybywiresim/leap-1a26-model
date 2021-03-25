@@ -340,8 +340,8 @@ D:\MSFS SDK\SimConnect SDK\include\SimConnect.h(699,44): message : expanded from
 ./RegPolynomials.h(44,10): warning : unused variable 'flow_out' [-Wunused-variable]
   In file included from FadecGauge.cpp:4:
   In file included from ./FadecGauge.h:29:
-./EngineControl.h(301,16): warning : unused variable 'ff' [-Wunused-variable]
-./EngineControl.h(302,16): warning : unused variable 'EngTime' [-Wunused-variable]
+./EngineControl.h(311,16): warning : unused variable 'EngTime' [-Wunused-variable]
+./EngineControl.h(310,16): warning : unused variable 'ff' [-Wunused-variable]
   In file included from FadecGauge.cpp:4:
   In file included from ./FadecGauge.h:19:
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7149,19): warning : unused function 'query_routine_610' [-Wunused-function]

@@ -280,6 +280,15 @@ private:
         if (Eng1Time+Eng2Time > EngineCycleTime) {
             test = 1;
 
+            // Checking Fuel UI/ EFB Tweaking
+            if (leftQuantity > FuelLeftPre || leftQuantity < FuelLeftPre - 1) {
+                FuelLeftPre = leftQuantity;
+            }
+
+            if (rightQuantity > FuelRightPre || rightQuantity < FuelRightPre - 1) {
+                FuelRightPre = rightQuantity;
+            }
+
             FuelControlData tankering;
 
             FuelLeft = (FuelLeftPre - FuelBurn1); // LBS
@@ -302,21 +311,6 @@ private:
         double EngTime = simVars->getEngineTime(1);
         //std::cout << "FBW: Test= " << test << " t= " << deltaTime << " ENGTime= " << EngTime << " PRE= " << FuelQuantity << " Pre Left= " << FuelLeftPre << " Pro Left= " << FuelLeft << " Burn1= " << FuelBurn1;
         //std::cout << " FF Sim= " << ff << " FF New= " << Engine1FF << std::flush;
-
-        /*
-        double EngRunning = simVars->getEngRunning(1);
-        double EngTime = simVars->getEngTime(1);
-        double EngFuelAvail = simVars->getEngFuelAvail(1);
-
-        if (simVars->getFF(1) > 0 || simVars->getFF(2) > 0) {
-            test = 1;
-        }
-
-        std::cout << "FBW:  Test=" << test << " Time: " << deltaTime * 3600 << " Fuel: " << FuelQuantity;
-        std::cout << " FF Orig: " << simVars->getFF(1) << " New FF: " << Engine1FF << " Eng Run: " << EngRunning << " EngTime: " << EngTime*3600 << " EngFuel: " << EngFuelAvail;
-        std::cout << " Original Burn: " << (FuelQuantityPre - FuelQuantity) * 0.453592 << " New Burn: " << FuelBurn1 + FuelBurn2;
-        std::cout << std::flush;
-        */
 
     }
 
