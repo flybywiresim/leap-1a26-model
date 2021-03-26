@@ -62,6 +62,7 @@ Tentative roadmap is as follows (it will be updated accordingly):
  - [x] Independent Engine Control :heavy_check_mark:
  - [ ] Windmilling
  - [ ] Gravity Feeding
+ - [ ] Engine Cycle and Wear
 
 
 ## Requirements
