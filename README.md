@@ -44,15 +44,24 @@ Tentative roadmap is as follows (it will be updated accordingly):
     - [ ] Manual 
  - [ ] Thrust Limits :hourglass:
  - [ ] EGT and OAT Limiting
- - [ ] Fuel Injector/ Dumper
+ - [x] Fuel Injector/ Dumper :heavy_check_mark:
  - [ ] Idle Management
      - [x] Minimum Idle :warning:
      - [ ] Approach Idle
  - [ ] Thrust Reverse Management
 
+#### Visuals
+- [ ] Upper ECAM
+   - [ ] Units (Metric & Imperial)
+   - [ ] Overall Fidelity (i.e. N2 decimals above 100%)
+- [ ] Lower ECAM
+   - [ ] Engine Page Fidelity
+   - [ ] Fuel Page Fidelity
+ 
 #### Misc/ Non-Normal Ops
- - [ ] Independent Engine Control
- - [ ] Windmilling/ Gravity Feeding
+ - [x] Independent Engine Control :heavy_check_mark:
+ - [ ] Windmilling
+ - [ ] Gravity Feeding
 
 
 ## Requirements
