@@ -30,8 +30,8 @@ Tentative roadmap is as follows (it will be updated accordingly):
 
 #### Engine Primary Parameter Modeling
  - [x] N1 and N2 :warning: 
- - [x] EGT :warning: 
- - [x] Fuel Flow :warning: 
+ - [x] EGT :heavy_check_mark: 
+ - [x] Fuel Flow :heavy_check_mark: 
   
 #### Engine Secondary Parameter Modeling
  - [ ] Oil Qty, Pressure and Temperature 
@@ -46,17 +46,17 @@ Tentative roadmap is as follows (it will be updated accordingly):
  - [ ] EGT and OAT Limiting
  - [x] Fuel Injector/ Dumper :heavy_check_mark:
  - [ ] Idle Management
-     - [x] Minimum Idle :warning:
+     - [x] Minimum Idle :heavy_check_mark:
      - [ ] Approach Idle
  - [ ] Thrust Reverse Management
 
 #### Visuals
 - [ ] Upper ECAM
-   - [ ] Units (Metric & Imperial)
+   - [ ] Units (Metric & Imperial) :hourglass:
    - [ ] Overall Fidelity (i.e. N2 decimals above 100%)
 - [ ] Lower ECAM
    - [ ] Engine Page Fidelity
-   - [ ] Fuel Page Fidelity
+   - [ ] Fuel Page Fidelity :hourglass:
  
 #### Misc/ Non-Normal Ops
  - [x] Independent Engine Control :heavy_check_mark:
