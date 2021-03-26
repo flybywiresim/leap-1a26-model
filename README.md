@@ -55,6 +55,7 @@ Tentative roadmap is as follows (it will be updated accordingly):
    - [ ] Units (Metric & Imperial) :hourglass:
    - [ ] Overall Fidelity (i.e. N2 decimals above 100%)
 - [ ] Lower ECAM
+   - [ ] Units (Metric & Imperial) :hourglass:
    - [ ] Engine Page Fidelity
    - [ ] Fuel Page Fidelity :hourglass:
  
