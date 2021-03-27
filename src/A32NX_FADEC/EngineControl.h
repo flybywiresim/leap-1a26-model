@@ -50,6 +50,8 @@ private:
     double Engine1PreFF;
     double Engine2PreFF;
     double FuelQuantityPre;
+    double FuelUsedLeft;
+    double FuelUsedRight;
     double FuelLeftPre;
     double FuelRightPre;
     double Engine1FF;
@@ -219,7 +221,7 @@ private:
     }
     
     /// <summary>
-    /// FBW Fuel Consumption and Tankering (in Kg/h)
+    /// FBW Fuel Consumption and Tankering
     /// </summary>
     /// <remarks>Updates Fuel Consumption with realistic values</remarks>
     void updateFuel(double deltaTime)
@@ -239,6 +241,8 @@ private:
         Engine1FF = simVars->getEngine1FF(); // KG/H
         Engine2FF = simVars->getEngine2FF(); // KG/H
         FuelQuantityPre = simVars->getFuelQuantityPre(); // LBS
+        FuelUsedLeft = simVars->getFuelUsedLeft(); // Kg
+        FuelUsedRight = simVars->getFuelUsedRight(); // Kg
         FuelLeftPre = simVars->getFuelLeftPre(); // LBS
         FuelRightPre = simVars->getFuelRightPre(); // LBS
         FuelLeft = 0; // LBS
@@ -264,21 +268,27 @@ private:
         double centerQuantity = simVars->getTankCenterQuantity() * FuelWeightGallon;
         */
 
-        // Cycle Fuel Burn for Engine 1
-        m = (Engine1FF - Engine1PreFF) / deltaTime;
-        b = Engine1PreFF;
-        FuelBurn1 = (m * pow(deltaTime, 2) / 2) + (b * deltaTime) * 2.20462; // LBS
-        simVars->setEngine1PreFF(Engine1FF);
-
-        // Cycle Fuel Burn for Engine 2
-        m = (Engine2FF - Engine2PreFF) / deltaTime;
-        b = Engine2PreFF;
-        FuelBurn2 = (m * pow(deltaTime, 2) / 2) + (b * deltaTime) * 2.20462; // LBS
-        simVars->setEngine2PreFF(Engine2FF);
-
         // New Fuel Quantity
         if (Eng1Time+Eng2Time > EngineCycleTime) {
             test = 1;
+
+            // Cycle Fuel Burn for Engine 1
+            m = (Engine1FF - Engine1PreFF) / deltaTime;
+            b = Engine1PreFF;
+            FuelBurn1 = (m * pow(deltaTime, 2) / 2) + (b * deltaTime); // KG
+            simVars->setEngine1PreFF(Engine1FF);
+
+            // Cycle Fuel Burn for Engine 2
+            m = (Engine2FF - Engine2PreFF) / deltaTime;
+            b = Engine2PreFF;
+            FuelBurn2 = (m * pow(deltaTime, 2) / 2) + (b * deltaTime); // KG
+            simVars->setEngine2PreFF(Engine2FF);
+
+            // Fuel Used Accumulators
+            FuelUsedLeft += FuelBurn1;
+            FuelUsedRight += FuelBurn2;
+            simVars->setFuelUsedLeft(FuelUsedLeft); // in KG
+            simVars->setFuelUsedRight(FuelUsedRight); // in KG
 
             // Checking Fuel UI/ EFB Tweaking
             if (leftQuantity > FuelLeftPre || leftQuantity < FuelLeftPre - 1) {
@@ -291,8 +301,8 @@ private:
 
             FuelControlData tankering;
 
-            FuelLeft = (FuelLeftPre - FuelBurn1); // LBS
-            FuelRight = (FuelRightPre - FuelBurn2); // LBS
+            FuelLeft = (FuelLeftPre - (FuelBurn1 * 2.20462)); // LBS
+            FuelRight = (FuelRightPre - (FuelBurn2 * 2.20462)); // LBS
             tankering.FuelLeft = 7 + (FuelLeft / FuelWeightGallon); // USG
             tankering.FuelRight = 7 + (FuelRight / FuelWeightGallon); //USG
 
@@ -307,11 +317,8 @@ private:
             simVars->setFuelRightPre(rightQuantity); // in LBS
         }
 
-        double ff = simVars->getFF(1); // LBS
-        double EngTime = simVars->getEngineTime(1);
-        //std::cout << "FBW: Test= " << test << " t= " << deltaTime << " ENGTime= " << EngTime << " PRE= " << FuelQuantity << " Pre Left= " << FuelLeftPre << " Pro Left= " << FuelLeft << " Burn1= " << FuelBurn1;
-        //std::cout << " FF Sim= " << ff << " FF New= " << Engine1FF << std::flush;
-
+        std::cout << "FBW: Test= " << test << " t= " << deltaTime << " CTime= " << EngineCycleTime << " FOB= " << FuelQuantity;
+        std::cout << " Burn1= " << FuelUsedLeft << " Burn2= " << FuelUsedRight << std::flush;
     }
 
 	void updateCrank()

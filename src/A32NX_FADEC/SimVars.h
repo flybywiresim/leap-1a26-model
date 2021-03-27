@@ -119,6 +119,8 @@ public:
     ID EngineCycleTime;
     ID EngineCrank;
     ID EngineImbalance;
+    ID FuelUsedLeft;
+    ID FuelUsedRight;
     ID FuelQuantityPre;
     ID FuelLeftPre;
     ID FuelRightPre;
@@ -139,6 +141,8 @@ public:
         Engine1PreFF = register_named_variable("A32NX_ENGINE_PRE_FF:1");
         Engine2PreFF = register_named_variable("A32NX_ENGINE_PRE_FF:2");
         EngineImbalance = register_named_variable("A32NX_ENGINE_IMBALANCE");
+        FuelUsedLeft = register_named_variable("A32NX_FUEL_USED:1");
+        FuelUsedRight = register_named_variable("A32NX_FUEL_USED:2");
         FuelQuantityPre = register_named_variable("A32NX_FUEL_QUANTITY_PRE");
         FuelLeftPre = register_named_variable("A32NX_FUEL_LEFT_PRE");
         FuelRightPre = register_named_variable("A32NX_FUEL_RIGHT_PRE");
@@ -154,6 +158,8 @@ public:
         this->setEngine1PreFF(0);
         this->setEngine2PreFF(0);
         this->setEngineImbalance(0);
+        this->setFuelUsedLeft(0);
+        this->setFuelUsedRight(0);
         this->setFuelQuantityPre(0);
 		this->setEngineCrank(0);
         this->setEngineCycleTime(0);
@@ -189,6 +195,14 @@ public:
 
     void setEngineImbalance(FLOAT64 value) {
         set_named_variable_value(EngineImbalance, value);
+    }
+
+    void setFuelUsedLeft(FLOAT64 value) {
+        set_named_variable_value(FuelUsedLeft, value);
+    }
+
+    void setFuelUsedRight(FLOAT64 value) {
+        set_named_variable_value(FuelUsedRight, value);
     }
 
     void setFuelQuantityPre(FLOAT64 value) {
@@ -252,6 +266,14 @@ public:
 
     FLOAT64 getEngineCycleTime() {
         return get_named_variable_value(EngineCycleTime);
+    }
+
+    FLOAT64 getFuelUsedLeft() {
+        return get_named_variable_value(FuelUsedLeft);
+    }
+
+    FLOAT64 getFuelUsedRight() {
+        return get_named_variable_value(FuelUsedRight);
     }
 
     FLOAT64 getFuelQuantityPre() {
