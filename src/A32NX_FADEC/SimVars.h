@@ -5,9 +5,6 @@
 /// SimConnect data types for sending the sim updates.
 /// </summary>
 enum DataTypesID {
-    /// <summary>
-    /// The data type ID to use when sending fuel controls data.
-    /// </summary>
     FuelControls,
 };
 

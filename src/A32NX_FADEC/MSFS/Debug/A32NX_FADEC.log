@@ -1,17 +1,17 @@
 ﻿  FadecGauge.cpp
-  In file included from FadecGauge.cpp:4:
+  In file included from FadecGauge.cpp:20:
   In file included from ./FadecGauge.h:19:
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(118,9): warning : 'UINT8_MAX' macro redefined [-Wmacro-redefined]
 D:\MSFS SDK\WASM\wasi-sysroot\include\stdint.h(48,9): message : previous definition is here
-  In file included from FadecGauge.cpp:4:
+  In file included from FadecGauge.cpp:20:
   In file included from ./FadecGauge.h:19:
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(124,9): warning : 'UINT16_MAX' macro redefined [-Wmacro-redefined]
 D:\MSFS SDK\WASM\wasi-sysroot\include\stdint.h(49,9): message : previous definition is here
-  In file included from FadecGauge.cpp:4:
+  In file included from FadecGauge.cpp:20:
   In file included from ./FadecGauge.h:19:
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(130,9): warning : 'UINT32_MAX' macro redefined [-Wmacro-redefined]
 D:\MSFS SDK\WASM\wasi-sysroot\include\stdint.h(50,9): message : previous definition is here
-  In file included from FadecGauge.cpp:4:
+  In file included from FadecGauge.cpp:20:
   In file included from ./FadecGauge.h:19:
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(5827,17): warning : '__stdcall' calling convention is not supported for this target [-Wignored-attributes]
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(40,17): message : expanded from macro 'FSAPI'
@@ -181,15 +181,15 @@ D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7174,13): warning : '__stdcall' ca
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(40,17): message : expanded from macro 'FSAPI'
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(7179,13): warning : '__stdcall' calling convention is not supported for this target [-Wignored-attributes]
 D:\MSFS SDK\WASM\include\MSFS\Legacy\gauges.h(40,17): message : expanded from macro 'FSAPI'
-  In file included from FadecGauge.cpp:4:
+  In file included from FadecGauge.cpp:20:
   In file included from ./FadecGauge.h:20:
 D:\MSFS SDK\SimConnect SDK\include\SimConnect.h(686,15): warning : '__stdcall' calling convention is not supported for this target [-Wignored-attributes]
 D:\MSFS SDK\WASM\include\MSFS\Legacy/..\MSFS_WindowsTypes.h(123,21): message : expanded from macro 'CALLBACK'
-  In file included from FadecGauge.cpp:4:
+  In file included from FadecGauge.cpp:20:
   In file included from ./FadecGauge.h:20:
 D:\MSFS SDK\SimConnect SDK\include\SimConnect.h(698,11): warning : 'MODULE_EXPORT' macro redefined [-Wmacro-redefined]
 ./FadecGauge.h(8,10): message : previous definition is here
-  In file included from FadecGauge.cpp:4:
+  In file included from FadecGauge.cpp:20:
   In file included from ./FadecGauge.h:20:
 D:\MSFS SDK\SimConnect SDK\include\SimConnect.h(703,1): warning : '__stdcall' calling convention is not supported for this target [-Wignored-attributes]
 D:\MSFS SDK\SimConnect SDK\include\SimConnect.h(699,44): message : expanded from macro 'SIMCONNECTAPI'

@@ -32,7 +32,8 @@ private:
     double cn1;
     double mach;
     double altitude;
-    double ISADelta;
+    double ambientTemp;
+    double stdTemp;
     double egtNX;
 
     double cff;
@@ -81,7 +82,7 @@ private:
             simVars->setPrePhase(preFlightPhase);
         }  
         else {
-            // Takeoff Phase
+            // Taxi/ Takeoff Phase
             if (simOnGround == 1 && preFlightPhase == 0) {
                 actualFlightPhase = 0;
             }
@@ -150,9 +151,9 @@ private:
     /// FBW Exhaust Gas Temperature (in º Celsius)
     /// </summary>
     /// <remarks>Updates EGT with realistic values visualized in the ECAM</remarks>
-    void updateEGT(int idx, double cn1, double mach, double altitude, double ISADelta)
+    void updateEGT(int idx, double cn1, double mach, double altitude, double ambientTemp, double stdTemp)
     {
-        double egtNX = poly->egtNX(cn1, mach, altitude, ISADelta);
+        double egtNX = poly->egtNX(cn1, mach, altitude, ambientTemp, stdTemp);
 
         if (idx == 1) {
             simVars->setEngine1EGT(egtNX * ratios->theta2(mach, altitude));
@@ -166,7 +167,7 @@ private:
     /// FBW Fuel FLow (in Kg/h)
     /// </summary>
     /// <remarks>Updates Fuel Flow with realistic values</remarks>
-    void updateFF(int idx, double cn1, double cff, double mach, double altitude, double ISADelta, double actualFlightPhase, double preFlightPhase)
+    void updateFF(int idx, double cn1, double cff, double mach, double altitude, double ambientTemp, double stdTemp, double actualFlightPhase, double preFlightPhase)
     {  
         prevFuelFlow = 0;
         flow_out = 0;
@@ -184,7 +185,7 @@ private:
             prevFuelFlow = simVars->getEngine2FF(); // in Kgs/hr
         }
 
-        double flowNX = poly->flowNX(idx, cn1, mach, altitude, ISADelta, preFlightPhase, actualFlightPhase) * 0.453592; // in Kgs/hr. preFlightPhase for DEBUG
+        double flowNX = poly->flowNX(idx, cn1, mach, altitude, ambientTemp, stdTemp, preFlightPhase, actualFlightPhase) * 0.453592; // in Kgs/hr. preFlightPhase for DEBUG
         
         if (preFlightPhase == actualFlightPhase) {
             flow_out = flowNX * ratios->delta2(mach, altitude) * sqrt(ratios->theta2(mach, altitude));
@@ -317,8 +318,8 @@ private:
             simVars->setFuelRightPre(rightQuantity); // in LBS
         }
 
-        std::cout << "FBW: Test= " << test << " t= " << deltaTime << " CTime= " << EngineCycleTime << " FOB= " << FuelQuantity;
-        std::cout << " Burn1= " << FuelUsedLeft << " Burn2= " << FuelUsedRight << std::flush;
+        //std::cout << "FBW: Test= " << test << " t= " << deltaTime << " CTime= " << EngineCycleTime << " FOB= " << FuelQuantity;
+        //std::cout << " Burn1= " << FuelUsedLeft << " Burn2= " << FuelUsedRight << std::flush;
     }
 
 	void updateCrank()
@@ -357,7 +358,8 @@ public:
         preFlightPhase = simVars->getPrePhase();
         mach = simVars->getMach();
         altitude = simVars->getPlaneAltitude();
-        ISADelta = simVars->getAmbientTemperature() - simVars->getStdTemperature();
+        ambientTemp = simVars->getAmbientTemperature();
+        stdTemp = simVars->getStdTemperature();
 
         //Timer timer;
         flightPhase(simOnGround, altitudeAGL, verticalSpeed, actualFlightPhase, preFlightPhase);
@@ -365,8 +367,8 @@ public:
         while (idx != 0) {
             cn1 = simVars->getCN1(idx);
             cff = simVars->getFF(idx);
-            updateEGT(idx, cn1, mach, altitude, ISADelta);
-            updateFF(idx, cn1, cff, mach, altitude, ISADelta, actualFlightPhase, preFlightPhase);
+            updateEGT(idx, cn1, mach, altitude, ambientTemp, stdTemp);
+            updateFF(idx, cn1, cff, mach, altitude, ambientTemp, stdTemp, actualFlightPhase, preFlightPhase);
             idx--;
         }
 
@@ -379,9 +381,7 @@ public:
     }
 
     void terminate()
-    {
-        exit(1);
-    }
+    {}
 
 };
 
