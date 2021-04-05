@@ -2007,12 +2007,19 @@ var A320_Neo_UpperECAM;
         getEGTGaugeValue() {
             const engineId = this.index + 1;
             const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "number");
+			var value = SimVar.GetSimVarValue("L:A32NX_ENGINE_EGT:" + engineId, "celsius");
+	
             if (parseInt(imbalance.toString().substr(0, 1)) == engineId) {
                 var egt_i = parseInt(imbalance.toString().substr(1, 2));
+				if (value <= 400) {
+					egt_i = (egt_i*(value/400)) - 1;
+				}
             } else {
                 var egt_i = parseInt(0);
             }
-            const value = SimVar.GetSimVarValue("L:A32NX_ENGINE_EGT:" + engineId, "celsius") - egt_i;
+			
+			value -= egt_i;
+			
             return value;
         }
         getN1GaugeValue() {
@@ -2232,7 +2239,13 @@ var A320_Neo_UpperECAM;
                 var n2_i = parseFloat(0);
             }
             const name = "ENG N2 RPM:" + _engine;
-            const percent = SimVar.GetSimVarValue(name, "percent") - n2_i;
+			
+            var percent = SimVar.GetSimVarValue(name, "percent") - n2_i;
+			
+			if (percent < 0) {
+				percent = 0;
+			}
+			
             return percent;
         }
         getDisplayActiveEngine(_engine) {
