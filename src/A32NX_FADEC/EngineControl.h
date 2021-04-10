@@ -1,3 +1,21 @@
+/*
+ * A32NX
+ * Copyright (C) 2020 FlyByWire Simulations and its contributors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include "RegPolynomials.h"
@@ -31,6 +49,10 @@ class EngineControl {
   double ambientTemp;
   double stdTemp;
   double egtNX;
+  double flowNX;
+  double Imbalance;
+  int EngineImbalanced;
+  double FFImbalanced;
 
   double cff;
   double prevFuelFlow;
@@ -64,11 +86,14 @@ class EngineControl {
   double leftAuxQuantity;
   double rightAuxQuantity;
   double centerQuantity;
+  double xfrCenter;
+  double xfrAuxLeft;
+  double xfrAuxRight;
+  double FuelTotalActual;
+  double FuelTotalPre;
 
-  /// <summary>
-  /// Defines Flight Phases (Actual and Previous)
-  /// </summary>
-  /// <remarks>Flight phases being used to control engine TSFC and Fuel Flow</remarks>
+  // Defines Flight Phases (Actual and Previous)
+  // Flight phases being used to control engine TSFC and Fuel Flow
   void flightPhase(double simOnGround, double altitudeAGL, double verticalSpeed, double actualFlightPhase, double preFlightPhase) {
     // Checking aircraft initial state
     if (preFlightPhase == -1) {
@@ -108,11 +133,9 @@ class EngineControl {
     simVars->setActualPhase(actualFlightPhase);
   }
 
-  /// <summary>
-  /// Engine Imbalance Digital Word:
-  /// 00 - Engine, 00 - N2, 00 - FuelFlow, 00 - EGT
-  /// </summary>
-  /// <remarks>Generates a random engine imbalance. Next steps: make realistic imbalance due to wear</remarks>
+  // Engine Imbalance Coded Digital Word:
+  // 00 - Engine, 00 - N2, 00 - FuelFlow, 00 - EGT
+  // Generates a random engine imbalance. Next steps: make realistic imbalance due to wear
   void EngineImbalance(int initial) {
     srand((int)time(0));
 
@@ -140,12 +163,10 @@ class EngineControl {
     }
   }
 
-  /// <summary>
-  /// FBW Exhaust Gas Temperature (in º Celsius)
-  /// </summary>
-  /// <remarks>Updates EGT with realistic values visualized in the ECAM</remarks>
+  // FBW Exhaust Gas Temperature (in º Celsius)
+  // Updates EGT with realistic values visualized in the ECAM
   void updateEGT(int idx, double cn1, double mach, double altitude, double ambientTemp, double stdTemp) {
-    double egtNX = poly->egtNX(cn1, mach, altitude, ambientTemp, stdTemp);
+    egtNX = poly->egtNX(cn1, mach, altitude, ambientTemp, stdTemp);
 
     if (idx == 1) {
       simVars->setEngine1EGT(egtNX * ratios->theta2(mach, altitude));
@@ -154,10 +175,8 @@ class EngineControl {
     }
   }
 
-  /// <summary>
-  /// FBW Fuel FLow (in Kg/h)
-  /// </summary>
-  /// <remarks>Updates Fuel Flow with realistic values</remarks>
+  // FBW Fuel FLow (in Kg/h)
+  // Updates Fuel Flow with realistic values
   void updateFF(int idx,
                 double cn1,
                 double cff,
@@ -172,9 +191,9 @@ class EngineControl {
     delta = 0;
 
     // Engine Imbalance
-    double Imbalance = simVars->getEngineImbalance();
-    int EngineImbalanced = imbalance_extractor(Imbalance, 0);
-    double FFImbalanced = imbalance_extractor(Imbalance, 2);
+    Imbalance = simVars->getEngineImbalance();
+    EngineImbalanced = imbalance_extractor(Imbalance, 0);
+    FFImbalanced = imbalance_extractor(Imbalance, 2);
 
     if (idx == 1) {
       prevFuelFlow = simVars->getEngine1FF();  // in Kgs/hr
@@ -182,7 +201,7 @@ class EngineControl {
       prevFuelFlow = simVars->getEngine2FF();  // in Kgs/hr
     }
 
-    double flowNX = poly->flowNX(idx, cn1, mach, altitude, ambientTemp, stdTemp, preFlightPhase, actualFlightPhase) *
+    flowNX = poly->flowNX(idx, cn1, mach, altitude, ambientTemp, stdTemp, preFlightPhase, actualFlightPhase) *
                     0.453592;  // in Kgs/hr. preFlightPhase for DEBUG
 
     if (preFlightPhase == actualFlightPhase) {
@@ -215,13 +234,11 @@ class EngineControl {
     }
   }
 
-  /// <summary>
-  /// FBW Fuel Consumption and Tankering
-  /// </summary>
-  /// <remarks>Updates Fuel Consumption with realistic values</remarks>
+  // FBW Fuel Consumption and Tankering
+  // Updates Fuel Consumption with realistic values
   void updateFuel(double deltaTime) {
     int test = 0;
-   
+
     EngineCycleTime = simVars->getEngineCycleTime();
     Eng1Time = simVars->getEngineTime(1);
     Eng2Time = simVars->getEngineTime(2);
@@ -231,42 +248,35 @@ class EngineControl {
     FuelBurn1 = 0;
     FuelBurn2 = 0;
 
-    Engine1PreFF = simVars->getEngine1PreFF();                                  // KG/H
-    Engine2PreFF = simVars->getEngine2PreFF();                                  // KG/H
-    Engine1FF = simVars->getEngine1FF();                                        // KG/H
-    Engine2FF = simVars->getEngine2FF();                                        // KG/H
+    Engine1PreFF = simVars->getEngine1PreFF();  // KG/H
+    Engine2PreFF = simVars->getEngine2PreFF();  // KG/H
+    Engine1FF = simVars->getEngine1FF();        // KG/H
+    Engine2FF = simVars->getEngine2FF();        // KG/H
 
     FuelWeightGallon = simVars->getFuelWeightGallon();
-    FuelUsedLeft = simVars->getFuelUsedLeft();                                  // Kg
-    FuelUsedRight = simVars->getFuelUsedRight();                                // Kg
+    FuelUsedLeft = simVars->getFuelUsedLeft();    // Kg
+    FuelUsedRight = simVars->getFuelUsedRight();  // Kg
 
-    FuelLeftPre = simVars->getFuelLeftPre();                                    // LBS
-    FuelRightPre = simVars->getFuelRightPre();                                  // LBS
-    FuelAuxLeftPre = simVars->getFuelAuxLeftPre();                              // LBS
-    FuelAuxRightPre = simVars->getFuelAuxRightPre();                            // LBS
-    FuelCenterPre = simVars->getFuelCenterPre();                                // LBS
-    leftQuantity = simVars->getTankLeftQuantity() * FuelWeightGallon;           // LBS
-    rightQuantity = simVars->getTankRightQuantity() * FuelWeightGallon;         // LBS
-    leftAuxQuantity = simVars->getTankLeftAuxQuantity() * FuelWeightGallon;     // LBS
-    rightAuxQuantity = simVars->getTankRightAuxQuantity() * FuelWeightGallon;   // LBS
-    centerQuantity = simVars->getTankCenterQuantity() * FuelWeightGallon;       // LBS
-    FuelLeft = 0;                                                               // LBS
+    FuelLeftPre = simVars->getFuelLeftPre();                                   // LBS
+    FuelRightPre = simVars->getFuelRightPre();                                 // LBS
+    FuelAuxLeftPre = simVars->getFuelAuxLeftPre();                             // LBS
+    FuelAuxRightPre = simVars->getFuelAuxRightPre();                           // LBS
+    FuelCenterPre = simVars->getFuelCenterPre();                               // LBS
+    leftQuantity = simVars->getTankLeftQuantity() * FuelWeightGallon;          // LBS
+    rightQuantity = simVars->getTankRightQuantity() * FuelWeightGallon;        // LBS
+    leftAuxQuantity = simVars->getTankLeftAuxQuantity() * FuelWeightGallon;    // LBS
+    rightAuxQuantity = simVars->getTankRightAuxQuantity() * FuelWeightGallon;  // LBS
+    centerQuantity = simVars->getTankCenterQuantity() * FuelWeightGallon;      // LBS
+    FuelLeft = 0;                                                              // LBS
     FuelRight = 0;
     FuelCenter = 0;
-    double xfrCenter = 0;
-    double xfrAuxLeft = 0;
-    double xfrAuxRight = 0;
-    double FuelTotalActual = leftQuantity + rightQuantity + leftAuxQuantity + rightAuxQuantity + centerQuantity;
-    double FuelTotalPre = FuelLeftPre + FuelRightPre + FuelAuxLeftPre + FuelAuxRightPre + FuelCenterPre;
+    xfrCenter = 0;
+    xfrAuxLeft = 0;
+    xfrAuxRight = 0;
+    FuelTotalActual = leftQuantity + rightQuantity + leftAuxQuantity + rightAuxQuantity + centerQuantity;
+    FuelTotalPre = FuelLeftPre + FuelRightPre + FuelAuxLeftPre + FuelAuxRightPre + FuelCenterPre;
 
     deltaTime = deltaTime / 3600;
-    
-    // Tank Capacity in LBS
-    double leftAuxCapacity = simVars->getTankLeftAuxCapacity() * FuelWeightGallon;
-    double rightAuxCapacity = simVars->getTankRightAuxCapacity() * FuelWeightGallon;
-    double leftCapacity = simVars->getTankLeftCapacity() * FuelWeightGallon;
-    double rightCapacity = simVars->getTankRightCapacity() * FuelWeightGallon;
-    double centerCapacity = simVars->getTankCenterCapacity() * FuelWeightGallon;
 
     // New Fuel Quantity
     if (Eng1Time + Eng2Time > EngineCycleTime && abs(FuelTotalActual - FuelTotalPre) < 1) {
@@ -281,7 +291,7 @@ class EngineControl {
       m = (Engine2FF - Engine2PreFF) / deltaTime;
       b = Engine2PreFF;
       FuelBurn2 = (m * pow(deltaTime, 2) / 2) + (b * deltaTime);  // KG
-      
+
       // Fuel Used Accumulators
       FuelUsedLeft += FuelBurn1;
       FuelUsedRight += FuelBurn2;
@@ -306,7 +316,7 @@ class EngineControl {
 
       // Checking for Inner Tank overflow - Will be taken off with Rust code
       if (FuelLeft > 12120 && FuelRight > 12120) {
-        FuelCenter = centerQuantity + (FuelLeft - 12120) + (FuelRight - 12120); 
+        FuelCenter = centerQuantity + (FuelLeft - 12120) + (FuelRight - 12120);
         FuelLeft = 12120;
         FuelRight = 12120;
       } else if (FuelRight > 12120) {
@@ -318,16 +328,16 @@ class EngineControl {
       } else {
         FuelCenter = centerQuantity;
       }
-      
-      tankering.FuelLeft = 7 + (FuelLeft / FuelWeightGallon);    // USG
-      tankering.FuelRight = 7 + (FuelRight / FuelWeightGallon);  // USG
+
+      tankering.FuelLeft = 7 + (FuelLeft / FuelWeightGallon);      // USG
+      tankering.FuelRight = 7 + (FuelRight / FuelWeightGallon);    // USG
       tankering.FuelCenter = 6 + (FuelCenter / FuelWeightGallon);  // USG
 
       SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::FuelControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(tankering), &tankering);
 
       // Setting new pre-cycle conditions
 
-      simVars->setEngine1PreFF(Engine1FF); 
+      simVars->setEngine1PreFF(Engine1FF);
       simVars->setEngine2PreFF(Engine2FF);
       simVars->setFuelUsedLeft(FuelUsedLeft);         // in KG
       simVars->setFuelUsedRight(FuelUsedRight);       // in KG
@@ -335,19 +345,19 @@ class EngineControl {
       simVars->setFuelRightPre(FuelRight);            // in LBS
       simVars->setFuelAuxLeftPre(leftAuxQuantity);    // in LBS
       simVars->setFuelAuxRightPre(rightAuxQuantity);  // in LBS
-      simVars->setFuelCenterPre(FuelCenter);      // in LBS
+      simVars->setFuelCenterPre(FuelCenter);          // in LBS
 
       simVars->setEngineCycleTime(Eng1Time + Eng2Time);
     } else {
-      simVars->setFuelLeftPre(leftQuantity);     // in LBS
-      simVars->setFuelRightPre(rightQuantity);   // in LBS
+      simVars->setFuelLeftPre(leftQuantity);          // in LBS
+      simVars->setFuelRightPre(rightQuantity);        // in LBS
       simVars->setFuelAuxLeftPre(leftAuxQuantity);    // in LBS
       simVars->setFuelAuxRightPre(rightAuxQuantity);  // in LBS
       simVars->setFuelCenterPre(centerQuantity);      // in LBS
     }
     /*
-    std::cout << "FBW: Test= " << test 
-              << " dt= " << deltaTime * 3600 
+    std::cout << "FBW: Test= " << test
+              << " dt= " << deltaTime * 3600
               << " FuelUsedLeft = " << FuelUsedLeft
               << " FuelUsedRight = " << FuelUsedRight << " FuelLeftPre = " << FuelLeftPre << " FuelRightPre = " << FuelRightPre
               << " FuelAuxLeftPre = " << FuelAuxLeftPre << " FuelAuxRightPre = " << FuelAuxRightPre << " FuelCenterPre = " << FuelCenterPre
@@ -356,7 +366,6 @@ class EngineControl {
               << " FuelRight = " << FuelRight << " xfrCenter = " << xfrCenter << " xfrAuxLeft = " << xfrAuxLeft
               << " xfrAuxRight = " << xfrAuxRight << " FuelTotalActual = " << FuelTotalActual << " FuelTotalPre = " << FuelTotalPre
               << std::flush;*/
-    
   }
 
   void updateCrank() {
@@ -370,8 +379,9 @@ class EngineControl {
   }
 
  public:
+  // Initialize the FADEC and Fuel model
   void initialize() {
-    printf("EngineControl init");
+    std::cout << "FADEC: Initializing EngineControl" << std::endl;
 
     simVars = new SimVars();
 
@@ -408,9 +418,6 @@ class EngineControl {
     updateFuel(deltaTime);
     updateCrank();
     // timer.Stop();
-
-    // double tc = 700;
-    // SimConnect_SetDataOnSimObject(hSimConnect, DATA_DEFINE_ID::DEFINITION_ENGINE, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(double), &tc);
   }
 
   void terminate() {}
