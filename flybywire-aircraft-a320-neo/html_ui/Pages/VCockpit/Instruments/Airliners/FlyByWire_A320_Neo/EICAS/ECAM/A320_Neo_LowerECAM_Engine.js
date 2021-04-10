@@ -68,7 +68,7 @@ var A320_Neo_LowerECAM_Engine;
             let engineStarting = (SimVar.GetSimVarValue("GENERAL ENG STARTER:1", "bool") === 1) ? true : false;
             let n2Igniting = (SimVar.GetSimVarValue("TURB ENG IS IGNITING:1", "bool") === 1) ? true : false;
             let n2Percent = SimVar.GetSimVarValue("ENG N2 RPM:1", "percent");
-            if (engineStarting && n2Igniting && n2Percent > 18 && n2Percent < 56) {
+            if (engineStarting && n2Igniting && n2Percent > 18 && n2Percent < 55) {
                 if (this.ignRightCurrentState == A320_Neo_LowerECAM_Engine.Definitions.IGN_STATE.A) {
                     ignLeftTargetState = A320_Neo_LowerECAM_Engine.Definitions.IGN_STATE.B;
                 } else {
@@ -83,7 +83,7 @@ var A320_Neo_LowerECAM_Engine;
             engineStarting = (SimVar.GetSimVarValue("GENERAL ENG STARTER:2", "bool") === 1) ? true : false;
             n2Igniting = (SimVar.GetSimVarValue("TURB ENG IS IGNITING:2", "bool") === 1) ? true : false;
             n2Percent = SimVar.GetSimVarValue("ENG N2 RPM:2", "percent");
-            if (engineStarting && n2Igniting && n2Percent > 18 && n2Percent < 56) {
+            if (engineStarting && n2Igniting && n2Percent > 18 && n2Percent < 55) {
                 if (this.ignLeftCurrentState == A320_Neo_LowerECAM_Engine.Definitions.IGN_STATE.A) {
                     ignRightTargetState = A320_Neo_LowerECAM_Engine.Definitions.IGN_STATE.B;
                 } else {
@@ -197,7 +197,7 @@ var A320_Neo_LowerECAM_Engine;
             this.setN2VibrationValue(0, true);
         }
         update(_deltaTime) {
-            this.setFuelUsedValue(SimVar.GetSimVarValue("GENERAL ENG FUEL USED SINCE START:" + this.engineIndex, "kg") * this.unitConversion);
+            this.setFuelUsedValue(SimVar.GetSimVarValue("L:A32NX_FUEL_USED:" + this.engineIndex, "number") * this.unitConversion);
             this.setOilTemperatureValue(SimVar.GetSimVarValue("GENERAL ENG OIL TEMPERATURE:" + this.engineIndex, "celsius"));
 
             let bleedPressure = 0;
