@@ -1,2 +1,5 @@
 *.sln
 *.vcx*
+.clang*
+MSFS/Debug/
+.vs/*
