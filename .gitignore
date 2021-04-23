@@ -2,4 +2,5 @@
 *.vcx*
 .clang*
 **/MSFS/Debug/
+**/MSFS/Release/
 **/.vs/
