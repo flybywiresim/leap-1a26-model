@@ -12,9 +12,6 @@ class EngineControl {
 
   double Eng1Time;
   double Eng2Time;
-  double simOnGround;
-  double altitudeAGL;
-  double verticalSpeed;
   double ambientTemp;
 
   int idx;
@@ -34,9 +31,7 @@ class EngineControl {
   double FFImbalanced;
 
   double cff;
-  double prevFuelFlow;
   double flow_out;
-  double delta;
 
   double m;
   double b;
@@ -46,7 +41,6 @@ class EngineControl {
   double FuelWeightGallon;
   double Engine1PreFF;
   double Engine2PreFF;
-  double FuelQuantityPre;
   double FuelUsedLeft;
   double FuelUsedRight;
   double FuelLeftPre;
@@ -56,7 +50,6 @@ class EngineControl {
   double FuelCenterPre;
   double Engine1FF;
   double Engine2FF;
-  double FuelQuantity;
   double FuelLeft;
   double FuelRight;
   double FuelCenter;
@@ -286,9 +279,6 @@ class EngineControl {
   void update(double deltaTime) {
     // Per cycle Initial Conditions
     idx = 2;
-    simOnGround = simVars->getSimOnGround();
-    altitudeAGL = simVars->getPlaneAltitudeAGL();
-    verticalSpeed = simVars->getVerticalSpeed();
     mach = simVars->getMach();
     altitude = simVars->getPlaneAltitude();
     ambientTemp = simVars->getAmbientTemperature();
