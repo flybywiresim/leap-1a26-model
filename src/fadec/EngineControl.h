@@ -73,14 +73,14 @@ private:
 	// Engine Start Procedure
 	void engineStartProcedure(int idx) {
 		EngineStartData starterCurves;
-		
+
 		if (idx == 1) {
 			starterCurves.StartCN2Left = 1;
 		}
 		else {
 			starterCurves.StartCN2Right = 1;
 		}
-		
+
 
 		SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::EngineStartControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(starterCurves), &starterCurves);
 
@@ -207,110 +207,128 @@ private:
 		FuelTotalPre = FuelLeftPre + FuelRightPre + FuelAuxLeftPre + FuelAuxRightPre + FuelCenterPre;
 
 		deltaTime = deltaTime / 3600;
-		
-		// New Fuel Quantity
-		if (FuelTotalActual > 5) {
-			if (Eng1Time + Eng2Time > EngineCycleTime && abs(FuelTotalActual - FuelTotalPre) < 1) {
-				test = 1;
+
+		if (Eng1Time + Eng2Time > EngineCycleTime && abs(FuelTotalActual - FuelTotalPre) < 1) {
+
+			//--------------------------------------------
+			// Left Engine and Wing routine
+			//--------------------------------------------
+			if (FuelLeftPre > 2) {
 				// Cycle Fuel Burn for Engine 1
 				m = (Engine1FF - Engine1PreFF) / deltaTime;
 				b = Engine1PreFF;
 				FuelBurn1 = (m * pow(deltaTime, 2) / 2) + (b * deltaTime);  // KG
 
+				// Fuel Used Accumulators - Engine 1
+				FuelUsedLeft += FuelBurn1;
+
+				// Fuel transfer routine for Left Wing
+				if (FuelAuxLeftPre > leftAuxQuantity) {
+					xfrAuxLeft = FuelAuxLeftPre - leftAuxQuantity;
+				}
+			}
+			else {
+				FuelBurn1 = 0;
+				FuelLeftPre = 0;
+			}
+
+			//--------------------------------------------
+			// Right Engine and Wing routine
+			//--------------------------------------------
+			if (FuelRightPre > 2) {
 				// Cycle Fuel Burn for Engine 2
 				m = (Engine2FF - Engine2PreFF) / deltaTime;
 				b = Engine2PreFF;
 				FuelBurn2 = (m * pow(deltaTime, 2) / 2) + (b * deltaTime);  // KG
 
-				// Fuel Used Accumulators
-				FuelUsedLeft += FuelBurn1;
+				// Fuel Used Accumulators - Engine 2
 				FuelUsedRight += FuelBurn2;
 
-				//--------------------------------------------
-				// Main Fuel Logic and fuel transfer routine
-				//--------------------------------------------
-				if (FuelCenterPre > centerQuantity) {
-					xfrCenter = FuelCenterPre - centerQuantity;
-				}
-				if (FuelAuxLeftPre > leftAuxQuantity) {
-					xfrAuxLeft = FuelAuxLeftPre - leftAuxQuantity;
-				}
+				// Fuel transfer routine for Left Wing
 				if (FuelAuxRightPre > rightAuxQuantity) {
 					xfrAuxRight = FuelAuxRightPre - rightAuxQuantity;
 				}
-
-				FuelControlData tankering;
-
-				FuelLeft = (FuelLeftPre - (FuelBurn1 * 2.20462)) + xfrAuxLeft + (xfrCenter / 2);     // LBS
-				FuelRight = (FuelRightPre - (FuelBurn2 * 2.20462)) + xfrAuxRight + (xfrCenter / 2);  // LBS
-
-				// Checking for Inner Tank overflow - Will be taken off with Rust code
-				if (FuelLeft > 12167.1 && FuelRight > 12167.1) {
-					FuelCenter = centerQuantity + (FuelLeft - 12167.1) + (FuelRight - 12167.1);
-					FuelLeft = 12167.1;
-					FuelRight = 12167.1;
-				}
-				else if (FuelRight > 12167.1) {
-					FuelCenter = centerQuantity + FuelRight - 12167.1;
-					FuelRight = 12167.1;
-				}
-				else if (FuelLeft > 12167.1) {
-					FuelCenter = centerQuantity + FuelLeft - 12167.1;
-					FuelLeft = 12167.1;
-				}
-				else {
-					FuelCenter = centerQuantity;
-				}
-
-				// Setting new pre-cycle conditions
-				simVars->setEngine1PreFF(Engine1FF);
-				simVars->setEngine2PreFF(Engine2FF);
-				simVars->setFuelUsedLeft(FuelUsedLeft);         // in KG
-				simVars->setFuelUsedRight(FuelUsedRight);       // in KG
-				simVars->setFuelAuxLeftPre(leftAuxQuantity);    // in LBS
-				simVars->setFuelAuxRightPre(rightAuxQuantity);  // in LBS
-				simVars->setFuelCenterPre(FuelCenter);          // in LBS
-				simVars->setEngineCycleTime(Eng1Time + Eng2Time);
-
-				/*
-				// Checking if tanks are empty
-				if (FuelLeft <= 0) {
-					FuelLeft = 0;
-				}
-				if (FuelRight <= 0) {
-					FuelRight = 0;
-				}
-				if (FuelCenter <= 0) {
-					FuelCenter = 0;
-				}*/
-
-				tankering.FuelLeft = (FuelLeft / FuelWeightGallon);      // USG
-				tankering.FuelRight = (FuelRight / FuelWeightGallon);    // USG
-				tankering.FuelCenter = (FuelCenter / FuelWeightGallon);  // USG
-
-				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::FuelControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(tankering), &tankering);
-
-				simVars->setFuelLeftPre(FuelLeft);              // in LBS
-				simVars->setFuelRightPre(FuelRight);            // in LBS
-
 			}
 			else {
-				simVars->setFuelLeftPre(leftQuantity);          // in LBS
-				simVars->setFuelRightPre(rightQuantity);        // in LBS
-				simVars->setFuelAuxLeftPre(leftAuxQuantity);    // in LBS
-				simVars->setFuelAuxRightPre(rightAuxQuantity);  // in LBS
-				simVars->setFuelCenterPre(centerQuantity);      // in LBS
+				FuelBurn2 = 0;
+				FuelRightPre = 0;
 			}
-		}
-		else {
+
+			//--------------------------------------------
+			// Center Tank transfer routine
+			//--------------------------------------------
+			if (FuelCenterPre > centerQuantity) {
+				xfrCenter = FuelCenterPre - centerQuantity;
+			}
+
+			//--------------------------------------------
+			// Main Fuel Logic
+			//--------------------------------------------
 			FuelControlData tankering;
 
-			tankering.FuelLeft = 0;    // USG
-			tankering.FuelRight = 0;   // USG
-			tankering.FuelCenter = 0;  // USG
+			FuelLeft = (FuelLeftPre - (FuelBurn1 * 2.20462)) + xfrAuxLeft + (xfrCenter / 2);     // LBS
+			FuelRight = (FuelRightPre - (FuelBurn2 * 2.20462)) + xfrAuxRight + (xfrCenter / 2);  // LBS
+
+			// Checking for Inner Tank overflow - Will be taken off with Rust code
+			if (FuelLeft > 12167.1 && FuelRight > 12167.1) {
+				FuelCenter = centerQuantity + (FuelLeft - 12167.1) + (FuelRight - 12167.1);
+				FuelLeft = 12167.1;
+				FuelRight = 12167.1;
+			}
+			else if (FuelRight > 12167.1) {
+				FuelCenter = centerQuantity + FuelRight - 12167.1;
+				FuelRight = 12167.1;
+			}
+			else if (FuelLeft > 12167.1) {
+				FuelCenter = centerQuantity + FuelLeft - 12167.1;
+				FuelLeft = 12167.1;
+			}
+			else {
+				FuelCenter = centerQuantity;
+			}
+
+			// Setting new pre-cycle conditions
+			simVars->setEngine1PreFF(Engine1FF);
+			simVars->setEngine2PreFF(Engine2FF);
+			simVars->setFuelUsedLeft(FuelUsedLeft);         // in KG
+			simVars->setFuelUsedRight(FuelUsedRight);       // in KG
+			simVars->setFuelAuxLeftPre(leftAuxQuantity);    // in LBS
+			simVars->setFuelAuxRightPre(rightAuxQuantity);  // in LBS
+			simVars->setFuelCenterPre(FuelCenter);          // in LBS
+			simVars->setEngineCycleTime(Eng1Time + Eng2Time);
+
+			/*
+			// Checking if tanks are empty
+			if (FuelLeft <= 0) {
+				FuelLeft = 0;
+			}
+			if (FuelRight <= 0) {
+				FuelRight = 0;
+			}
+			if (FuelCenter <= 0) {
+				FuelCenter = 0;
+			}*/
+
+			tankering.FuelLeft = (FuelLeft / FuelWeightGallon);      // USG
+			tankering.FuelRight = (FuelRight / FuelWeightGallon);    // USG
+			tankering.FuelCenter = (FuelCenter / FuelWeightGallon);  // USG
 
 			SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::FuelControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(tankering), &tankering);
+
+			simVars->setFuelLeftPre(FuelLeft);              // in LBS
+			simVars->setFuelRightPre(FuelRight);            // in LBS
+
 		}
+		else {
+			simVars->setFuelLeftPre(leftQuantity);          // in LBS
+			simVars->setFuelRightPre(rightQuantity);        // in LBS
+			simVars->setFuelAuxLeftPre(leftAuxQuantity);    // in LBS
+			simVars->setFuelAuxRightPre(rightAuxQuantity);  // in LBS
+			simVars->setFuelCenterPre(centerQuantity);      // in LBS
+		}
+
+
+
 		/*
 		std::cout << "FADEC: Test= " << test << " FuelLeft= " << FuelLeft << " FuelLeftPre= " << FuelLeftPre << " leftQuantity= " << leftQuantity;
 		std::cout << " FuelBurn1= " << FuelBurn1 << " xfrAuxLeft= " << xfrAuxLeft;
@@ -382,14 +400,14 @@ public:
 			EngineState = 0;
 
 			switch (int(EngineState)) {
-				case 2:
-					engineStartProcedure(idx);
-					break;
-				default:
-					cn1 = simVars->getCN1(idx);
-					cff = updateFF(idx, cn1, mach, altitude, ambientTemp);
-					updateEGT(idx, cn1, cff, mach, altitude, ambientTemp);
-			}			
+			case 2:
+				engineStartProcedure(idx);
+				break;
+			default:
+				cn1 = simVars->getCN1(idx);
+				cff = updateFF(idx, cn1, mach, altitude, ambientTemp);
+				updateEGT(idx, cn1, cff, mach, altitude, ambientTemp);
+			}
 			idx--;
 		}
 
