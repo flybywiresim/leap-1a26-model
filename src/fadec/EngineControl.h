@@ -213,7 +213,7 @@ private:
 			//--------------------------------------------
 			// Left Engine and Wing routine
 			//--------------------------------------------
-			if (FuelLeftPre > 2) {
+			if (FuelLeftPre > 1.75) {
 				// Cycle Fuel Burn for Engine 1
 				m = (Engine1FF - Engine1PreFF) / deltaTime;
 				b = Engine1PreFF;
@@ -235,7 +235,7 @@ private:
 			//--------------------------------------------
 			// Right Engine and Wing routine
 			//--------------------------------------------
-			if (FuelRightPre > 2) {
+			if (FuelRightPre > 1.75) {
 				// Cycle Fuel Burn for Engine 2
 				m = (Engine2FF - Engine2PreFF) / deltaTime;
 				b = Engine2PreFF;
@@ -297,18 +297,6 @@ private:
 			simVars->setFuelCenterPre(FuelCenter);          // in LBS
 			simVars->setEngineCycleTime(Eng1Time + Eng2Time);
 
-			/*
-			// Checking if tanks are empty
-			if (FuelLeft <= 0) {
-				FuelLeft = 0;
-			}
-			if (FuelRight <= 0) {
-				FuelRight = 0;
-			}
-			if (FuelCenter <= 0) {
-				FuelCenter = 0;
-			}*/
-
 			tankering.FuelLeft = (FuelLeft / FuelWeightGallon);      // USG
 			tankering.FuelRight = (FuelRight / FuelWeightGallon);    // USG
 			tankering.FuelCenter = (FuelCenter / FuelWeightGallon);  // USG
@@ -326,14 +314,6 @@ private:
 			simVars->setFuelAuxRightPre(rightAuxQuantity);  // in LBS
 			simVars->setFuelCenterPre(centerQuantity);      // in LBS
 		}
-
-
-
-		/*
-		std::cout << "FADEC: Test= " << test << " FuelLeft= " << FuelLeft << " FuelLeftPre= " << FuelLeftPre << " leftQuantity= " << leftQuantity;
-		std::cout << " FuelBurn1= " << FuelBurn1 << " xfrAuxLeft= " << xfrAuxLeft;
-		std::cout << " xfrCenter= " << xfrCenter << std::flush;*/
-
 	}
 
 public:
@@ -384,7 +364,6 @@ public:
 			cn2 = simVars->getCN2(idx);
 
 			// Are we starting the engine?
-			/*
 			if (idx == 1) {
 				EngineState = simVars->getEngine1State();
 				if (engineStarter && engineIgniter && cn2 > 0 && EngineState != 1) {
@@ -396,8 +375,7 @@ public:
 				if (engineStarter && engineIgniter && cn2 > 0 && EngineState != 1) {
 					simVars->setEngine2State(2);
 				}
-			}*/
-			EngineState = 0;
+			}
 
 			switch (int(EngineState)) {
 			case 2:
