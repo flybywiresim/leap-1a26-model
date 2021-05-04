@@ -71,14 +71,14 @@ private:
 	double FuelTotalPre;
 
 	// Engine Start Procedure
-	void engineStartProcedure(int idx) {
+	void engineStartProcedure(int idx, double cn2) {
 		EngineStartData starterCurves;
 
 		if (idx == 1) {
 			starterCurves.StartCN2Left = 1;
 		}
 		else {
-			starterCurves.StartCN2Right = 1;
+            starterCurves.StartCN2Right = cn2 * 1.5;
 		}
 
 
@@ -375,19 +375,19 @@ public:
 			if (idx == 1) {
 				EngineState = simVars->getEngine1State();
 				if (engineStarter && engineIgniter && cn2 > 0 && EngineState != 1) {
-					simVars->setEngine1State(0);
+					simVars->setEngine1State(2);
 				}
 			}
 			else {
 				EngineState = simVars->getEngine2State();
 				if (engineStarter && engineIgniter && cn2 > 0 && EngineState != 1) {
-					simVars->setEngine2State(0);
+					simVars->setEngine2State(2);
 				}
 			}
 
 			switch (int(EngineState)) {
 			case 2:
-				engineStartProcedure(idx);
+				engineStartProcedure(idx, cn2);
 				break;
 			default:
 				cn1 = simVars->getCN1(idx);
