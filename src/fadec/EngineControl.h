@@ -75,15 +75,23 @@ private:
 		EngineStartData starterCurves;
 
 		if (idx == 1) {
-			starterCurves.StartCN2Left = 1;
+			starterCurves.StartCN2Left = cn2 * 1;
 		}
 		else {
-            starterCurves.StartCN2Right = cn2 * 1.5;
+            starterCurves.StartCN2Right = cn2 * 1;
 		}
-
 
 		SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::EngineStartControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(starterCurves), &starterCurves);
 
+		// Checking Engine Idle condition
+		if (cn2 >= 68.3) {
+			if (idx == 1) {
+				simVars->setEngine1State(1);
+			}
+			else {
+				simVars->setEngine2State(1);
+			}
+		}
 	}
 
 	// Engine Imbalance Coded Digital Word:
