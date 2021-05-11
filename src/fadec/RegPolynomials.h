@@ -3,54 +3,35 @@
 /// A collection of multi-variate regression polynomials for engine parameters
 class Polynomial {
 public:
-	double n2NX(double n2, double idleN2) {
+	double n2NX(double n2, double preN2, double idleN2) {
 		double n2_out = 0;
-		double m = 0;
-		double b = 0;
-		double cutoff1 = 0;
-		double cutoff2 = 0;
+		double norm_n2 = 0;
 
-		if (n2 <= 10  ) {
-			n2_out = (0.001164088 * pow(n2, 4)) - (0.032581156 * pow(n2, 3)) + (0.329780857 * pow(n2, 2)) - (1.51026875 * n2) + 5.0000000;
-		}
-		else if (n2 <= 35) {
-			n2_out = (-0.000146255 * pow(n2, 3)) + (0.011892965 * pow(n2, 2)) - (0.320662087 * n2) + 4.100000000;
-		}
-		else if (n2 <= 49) {
-			n2_out = (0.000014202 * pow(n2, 3)) - (0.001434902 * pow(n2, 2)) + (0.037872646 * n2) +1.0000000;
-		}
-		else if (n2 <= 60) {
-			n2_out = (0.000015864 * pow(n2, 4)) - (0.003354284 * pow(n2, 3)) + (0.264180902 * pow(n2, 2)) - (9.184557684 * n2) + 120.000000000;
-		}
-		else {
-			cutoff1 = (60 + (idleN2 - 60) * 0.329268293);
-			cutoff2 = (60 + (idleN2 - 60) * 0.451219512);
+		norm_n2 = n2 * 68.2 / idleN2;
 
-			if (n2 <= cutoff1) {
-				m = (((idleN2 / cutoff1) - 0.01) - 1.04988216 ) / (cutoff1 - 60);
-				b = 1.04988216 - (m * 60);
-			}
-			else if (n2 <= cutoff2) {
-				m = ((idleN2 / cutoff2) - ((idleN2 / cutoff1) - 0.01)) / (cutoff2 - cutoff1);
-				b = (idleN2 / cutoff2) - (m * cutoff2);
-			}
-			else {
-				m = (1 - (idleN2 / cutoff2)) / (idleN2 - cutoff2);
-				b = 1 - (m * idleN2);
-			}
+		double n2_coef[16] = {
+			4.03649879e+00, -9.41981960e-01, 1.98426614e-01, -2.11907840e-02,
+			1.00777507e-03, -1.57319166e-06, -2.15034888e-06, 1.08288379e-07,
+			-2.48504632e-09, 2.52307089e-11, -2.06869243e-14, 8.99045761e-16,
+			-9.94853959e-17, 1.85366499e-18, -1.44869928e-20, 4.31033031e-23 };
 
-			n2_out = (n2 * m) + b;
-		}
+		n2_out = n2_coef[0] + (n2_coef[1] * norm_n2) + (n2_coef[2] * pow(norm_n2, 2)) +
+			(n2_coef[3] * pow(norm_n2, 3)) + (n2_coef[4] * pow(norm_n2, 4)) + (n2_coef[5] * pow(norm_n2, 5)) +
+			(n2_coef[6] * pow(norm_n2, 6)) + (n2_coef[7] * pow(norm_n2, 7)) + (n2_coef[8] * pow(norm_n2, 8)) +
+			(n2_coef[9] * pow(norm_n2, 9)) + (n2_coef[10] * pow(norm_n2, 10)) + (n2_coef[11] * pow(norm_n2, 11)) +
+			(n2_coef[12] * pow(norm_n2, 12)) + (n2_coef[13] * pow(norm_n2, 13)) +
+			(n2_coef[14] * pow(norm_n2, 14)) + (n2_coef[15] * pow(norm_n2, 15));
 
 		n2_out = n2_out * n2;
 
-		return n2_out;
-		/*if (n2_out > idleN2 + 0.15) {
-			return idleN2;
+		std::cout << "FADEC: idle= " << idleN2 << " Sim N2= " << n2 << " Pre N2= " << preN2 << " New N2= " << n2_out << std::flush;
+
+		// Checking overshooting
+		if (n2_out < preN2) {
+			n2_out = preN2;
 		}
-		else {
-			return n2_out;
-		}*/
+
+		return n2_out;
 	}
 
 	double cegtNX(double cn1, double cff, double mach, double alt) {

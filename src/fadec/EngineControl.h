@@ -29,6 +29,7 @@ private:
 
 	double cn1;
 	double n2;
+	double preN2;
 	double idleN1;
 	double idleN2;
 	double mach;
@@ -109,10 +110,12 @@ private:
 		idleN2 = simVars->getEngineIdleN2();
 
 		if (idx == 1) {
-			simVars->setEngine1N2(poly->n2NX(n2, idleN2));
+			preN2 = simVars->getEngine1N2();
+			simVars->setEngine1N2(poly->n2NX(n2, preN2, idleN2));
 		}
 		else {
-			simVars->setEngine2N2(poly->n2NX(n2, idleN2));
+			preN2 = simVars->getEngine2N2();
+			simVars->setEngine2N2(poly->n2NX(n2, preN2, idleN2));
 		}
 
 		// Checking Engine Idle condition
