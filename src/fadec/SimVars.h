@@ -108,6 +108,8 @@ class SimVars {
   ID FuelOverflowRight;
   ID Engine1State;
   ID Engine2State;
+  ID Engine1Timer;
+  ID Engine2Timer;
 
   SimVars() { this->initializeVars(); }
 
@@ -134,6 +136,8 @@ class SimVars {
     EngineCycleTime = register_named_variable("A32NX_ENGINE_CYCLE_TIME");
     Engine1State = register_named_variable("A32NX_ENGINE_STATE:1");
     Engine2State = register_named_variable("A32NX_ENGINE_STATE:2");
+    Engine1Timer = register_named_variable("A32NX_ENGINE_TIMER:1");
+    Engine2Timer = register_named_variable("A32NX_ENGINE_TIMER:2");
 
     this->setEngine1N2(0);
     this->setEngine2N2(0);
@@ -156,6 +160,8 @@ class SimVars {
     this->setEngineCycleTime(0);
     this->setEngine1State(0);
     this->setEngine2State(0);
+    this->setEngine1Timer(0);
+    this->setEngine2Timer(0);
 
     m_Units = new Units();
   }
@@ -182,6 +188,8 @@ class SimVars {
   void setEngineCycleTime(FLOAT64 value) { set_named_variable_value(EngineCycleTime, value); }
   void setEngine1State(FLOAT64 value) { set_named_variable_value(Engine1State, value); }
   void setEngine2State(FLOAT64 value) { set_named_variable_value(Engine2State, value); }
+  void setEngine1Timer(FLOAT64 value) { set_named_variable_value(Engine1Timer, value); }
+  void setEngine2Timer(FLOAT64 value) { set_named_variable_value(Engine2Timer, value); }
 
   // Collection of SimVar/LVar 'get' Functions
   FLOAT64 getEngine1N2() { return get_named_variable_value(Engine1N2); }
@@ -207,6 +215,8 @@ class SimVars {
   FLOAT64 getN2(int index) { return aircraft_varget(N2, m_Units->Percent, index); }
   FLOAT64 getEngine1State() { return get_named_variable_value(Engine1State); }
   FLOAT64 getEngine2State() { return get_named_variable_value(Engine2State); }
+  FLOAT64 getEngine1Timer() { return get_named_variable_value(Engine1Timer); }
+  FLOAT64 getEngine2Timer() { return get_named_variable_value(Engine2Timer); }
   FLOAT64 getFF(int index) { return aircraft_varget(correctedFF, m_Units->Pph, index); }
   FLOAT64 getMach() { return aircraft_varget(AirSpeedMach, m_Units->Mach, 0); }
   FLOAT64 getPlaneAltitude() { return aircraft_varget(PlaneAltitude, m_Units->Feet, 0); }

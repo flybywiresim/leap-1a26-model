@@ -13,6 +13,7 @@ private:
 
 	double Eng1Time;
 	double Eng2Time;
+	double timer;
 	double ambientTemp;
 
 	int idx;
@@ -106,25 +107,44 @@ private:
 	}
 
 	// Engine Start Procedure
-	void engineStartProcedure(int idx, double n2, double pressAltitude, double ambientTemp) {
+	void engineStartProcedure(int idx, double deltaTime, double timer, double n2, double pressAltitude, double ambientTemp) {
+		EngineStartData N2Start;
+
 		idleN2 = simVars->getEngineIdleN2();
 
 		if (idx == 1) {
-			preN2 = simVars->getEngine1N2();
-			simVars->setEngine1N2(poly->n2NX(n2, preN2, idleN2));
+			// Delay between Engine Master ON and Start Valve Open
+			if (timer < 2) {
+				simVars->setEngine1Timer(timer + deltaTime);
+				N2Start.StartCN2Left = 0;
+				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::EngineStartControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(N2Start), &N2Start);
+			}
+			else {
+				preN2 = simVars->getEngine1N2();
+				simVars->setEngine1N2(poly->n2NX(n2, preN2, idleN2));
+			}
 		}
 		else {
-			preN2 = simVars->getEngine2N2();
-			simVars->setEngine2N2(poly->n2NX(n2, preN2, idleN2));
+			if (timer < 2) {
+				simVars->setEngine2Timer(timer + deltaTime);
+				N2Start.StartCN2Right = 0;
+				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::EngineStartControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(N2Start), &N2Start);
+			}
+			else {
+				preN2 = simVars->getEngine2N2();
+				simVars->setEngine2N2(poly->n2NX(n2, preN2, idleN2));
+			}
 		}
 
 		// Checking Engine Idle condition
 		if (n2 >= idleN2) {
 			if (idx == 1) {
 				simVars->setEngine1State(1);
+				simVars->setEngine1Timer(0);
 			}
 			else {
 				simVars->setEngine2State(1);
+				simVars->setEngine2Timer(0);
 			}
 		}
 	}
@@ -360,6 +380,10 @@ public:
 		Eng2Time = simVars->getEngineTime(2);
 		simVars->setEngineCycleTime(Eng1Time + Eng2Time);
 
+		// Resetting Engine Timers
+		simVars->setEngine1Timer(0);
+		simVars->setEngine2Timer(0);
+
 		// Checking for engine combustion (engine on or off)
 		Engine1Combustion = simVars->getEngineCombustion(1);
 		Engine2Combustion = simVars->getEngineCombustion(2);
@@ -389,9 +413,7 @@ public:
 		idleN1 = IdleCN1(pressAltitude, ambientTemp) * sqrt(ratios->theta2(mach, ambientTemp));
 		idleN2 = IdleCN2(pressAltitude, ambientTemp) * sqrt((273.15 + ambientTemp) / 288.15);
 		simVars->setEngineIdleN1(idleN1);
-		simVars->setEngineIdleN2(idleN2);
-
-
+		simVars->setEngineIdleN2(idleN2); 
 
 		// Timer timer;
 		while (idx != 0) {
@@ -401,21 +423,23 @@ public:
 
 			// Are we starting the engine?
 			if (idx == 1) {
+				timer = simVars->getEngine1Timer();
 				EngineState = simVars->getEngine1State();
-				if (engineStarter && engineIgniter && n2 > 0 && EngineState != 1) {
+				if (engineStarter && engineIgniter && timer == 0 && EngineState != 1) {
 					simVars->setEngine1State(2);
 				}
 			}
 			else {
+				timer = simVars->getEngine2Timer();
 				EngineState = simVars->getEngine2State();
-				if (engineStarter && engineIgniter && n2 > 0 && EngineState != 1) {
+				if (engineStarter && engineIgniter && timer == 0 && EngineState != 1) {
 					simVars->setEngine2State(2);
 				}
 			}
 
 			switch (int(EngineState)) {
 			case 2:
-				engineStartProcedure(idx, n2, pressAltitude, ambientTemp);
+				engineStartProcedure(idx, deltaTime, timer, n2, pressAltitude, ambientTemp);
 				break;
 			default:
 				cn1 = simVars->getCN1(idx);

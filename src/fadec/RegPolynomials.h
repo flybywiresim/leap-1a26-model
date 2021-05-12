@@ -28,7 +28,10 @@ public:
 
 		// Checking overshooting
 		if (n2_out < preN2) {
-			n2_out = preN2;
+			n2_out = preN2 + 0.002;
+		}
+		if (n2_out >= idleN2 + 0.1) {
+			n2_out = idleN2 + 0.05;
 		}
 
 		return n2_out;
