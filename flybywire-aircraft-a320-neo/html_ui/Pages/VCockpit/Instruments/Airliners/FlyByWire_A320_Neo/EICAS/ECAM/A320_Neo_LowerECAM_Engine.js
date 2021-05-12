@@ -72,7 +72,8 @@ var A320_Neo_LowerECAM_Engine;
             let engineStarting = (SimVar.GetSimVarValue("GENERAL ENG STARTER:1", "bool") === 1) ? true : false;
             let n2Igniting = (SimVar.GetSimVarValue("TURB ENG IS IGNITING:1", "bool") === 1) ? true : false;
             let n2Percent = SimVar.GetSimVarValue("ENG N2 RPM:1", "percent");
-            this.igniterLeft.updateStatus(engineStarting, n2Igniting, n2Percent);
+
+			this.igniterLeft.updateStatus(engineStarting, n2Igniting, n2Percent);
             if (n2Percent > 50) {
                 // Close left valve
                 this.engineLeft.setEngineBleedValveState(false, false);
@@ -81,7 +82,15 @@ var A320_Neo_LowerECAM_Engine;
             engineStarting = (SimVar.GetSimVarValue("GENERAL ENG STARTER:2", "bool") === 1) ? true : false;
             n2Igniting = (SimVar.GetSimVarValue("TURB ENG IS IGNITING:2", "bool") === 1) ? true : false;
             n2Percent = SimVar.GetSimVarValue("ENG N2 RPM:2", "percent");
+			let timer2 = SimVar.GetSimVarValue("L:A32NX_ENGINE_TIMER:2", "number");
+			
+			// JUANMA TEST
             this.igniterRight.updateStatus(engineStarting, n2Igniting, n2Percent);
+			if (timer2 < 2) {
+			    this.engineRight.setEngineBleedValveState(false, false);
+			}
+			// JUANMA TEST
+			
             if (n2Percent > 50) {
                 // Close right valve
                 this.engineRight.setEngineBleedValveState(false, false);
@@ -158,7 +167,7 @@ var A320_Neo_LowerECAM_Engine;
                 bleedPressure = SimVar.GetSimVarValue("L:APU_BLEED_PRESSURE", "psi");
             }
             this.setEngineBleedPressureValue(bleedPressure);
-
+			
             this.setEngineBleedValveState(SimVar.GetSimVarValue("GENERAL ENG STARTER:" + this.engineIndex, "bool"));
             this.setN1VibrationValue(SimVar.GetSimVarValue("TURB ENG VIBRATION:" + this.engineIndex, "Number"));
             this.setN2VibrationValue(SimVar.GetSimVarValue("TURB ENG VIBRATION:" + this.engineIndex, "Number")); // TODO: should have a different value than N1, currently API limited

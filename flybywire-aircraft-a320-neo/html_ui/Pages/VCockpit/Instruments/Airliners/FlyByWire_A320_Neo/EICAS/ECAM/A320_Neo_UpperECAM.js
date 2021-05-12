@@ -2198,18 +2198,18 @@ var A320_Neo_UpperECAM;
             return "%";
         }
         getValue(_engine) {
-            const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "number");
+            /* const imbalance = SimVar.GetSimVarValue("L:A32NX_ENGINE_IMBALANCE", "number");
             let n2Imbalance = 0;
             if (parseInt(imbalance.toString().substr(0, 1)) == _engine) {
                 n2Imbalance = parseFloat(imbalance.toString().substr(5, 2)) / 100;
             } else {
                 n2Imbalance = parseFloat(0);
-            }
-            const name = "ENG N2 RPM:" + _engine;
-            let percent = SimVar.GetSimVarValue(name, "percent") - n2Imbalance;
-            if (percent < 0.0) {
-                percent = 0;
-            }
+            } */
+			const name = "L:A32NX_ENGINE_N2:" + _engine;
+			let percent = SimVar.GetSimVarValue(name, "percent");
+			if (percent < 0.0) {
+				percent = 0;
+			}
             return percent;
         }
         getDisplayActiveEngine(_engine) {
