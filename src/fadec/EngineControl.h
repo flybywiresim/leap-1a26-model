@@ -117,6 +117,7 @@ private:
 			if (timer < 2) {
 				simVars->setEngine1Timer(timer + deltaTime);
 				N2Start.StartCN2Left = 0;
+				N2Start.StartCN2Right = n2;
 				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::EngineStartControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(N2Start), &N2Start);
 			}
 			else {
@@ -127,6 +128,7 @@ private:
 		else {
 			if (timer < 2) {
 				simVars->setEngine2Timer(timer + deltaTime);
+                N2Start.StartCN2Left = n2;
 				N2Start.StartCN2Right = 0;
 				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::EngineStartControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(N2Start), &N2Start);
 			}
