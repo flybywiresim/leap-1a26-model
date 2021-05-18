@@ -3,7 +3,8 @@
 // SimConnect data types for sending the sim updates.
 enum DataTypesID {
   FuelControls,
-  EngineStartControls,
+  StartCN2Left,
+  StartCN2Right,
 };
 
 // Fuel controls.
@@ -16,15 +17,6 @@ struct FuelControlData {
 
   // Center Fuel Quantity in US Gallons.
   double FuelCenter;
-};
-
-// Engine Start controls.
-struct EngineStartData {
-    // CN2 start-up behaviour
-    double StartCN2Left;
-
-    // CN2 start-up behaviour
-    double StartCN2Right;
 };
 
 // A collection of SimVar unit enums.
@@ -66,7 +58,6 @@ class SimVars {
   ENUM StdTemp = get_aircraft_var_enum("STANDARD ATM TEMPERATURE");
   ENUM SimOnGround = get_aircraft_var_enum("SIM ON GROUND");
   ENUM EngineTime = get_aircraft_var_enum("GENERAL ENG ELAPSED TIME");
-  ENUM EngineCombustion = get_aircraft_var_enum("GENERAL ENG COMBUSTION");
   ENUM EngineStarter = get_aircraft_var_enum("GENERAL ENG STARTER");
   ENUM EngineIgniter = get_aircraft_var_enum("TURB ENG IS IGNITING");
 
@@ -239,7 +230,6 @@ class SimVars {
   FLOAT64 getFuelTotalQuantity() { return aircraft_varget(FuelTotalQuantity, m_Units->Gallons, 0); }
   FLOAT64 getFuelWeightGallon() { return aircraft_varget(FuelWeightGallon, m_Units->Pounds, 0); }
   FLOAT64 getEngineTime(int index) { return aircraft_varget(EngineTime, m_Units->Seconds, index); }
-  FLOAT64 getEngineCombustion(int index) { return aircraft_varget(EngineCombustion, m_Units->Bool, index); }
   FLOAT64 getEngineStarter(int index) { return aircraft_varget(EngineStarter, m_Units->Bool, index); }
   FLOAT64 getEngineIgniter(int index) { return aircraft_varget(EngineIgniter, m_Units->Bool, index); }
 };

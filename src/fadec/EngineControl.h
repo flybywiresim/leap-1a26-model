@@ -11,12 +11,12 @@ private:
 	Ratios* ratios;
 	Polynomial* poly;
 
+	double EngTime;
 	double Eng1Time;
 	double Eng2Time;
 	double timer;
 	double ambientTemp;
 
-	int idx;
 	int engine;
 	int egt_imbalance;
 	int ff_imbalance;
@@ -30,6 +30,8 @@ private:
 
 	double cn1;
 	double n2;
+	double StartCN2Left;
+	double StartCN2Right;
 	double preN2;
 	double idleN1;
 	double idleN2;
@@ -75,9 +77,78 @@ private:
 	double FuelTotalActual;
 	double FuelTotalPre;
 
+	///////////////////////////////////////////////////////////////////////////////////////////
+	// Engine State Machine 
+	// 0 - Engine OFF, 1 - Engine ON, 2 - Engine Starting & 3 - Engine Shutting
+	///////////////////////////////////////////////////////////////////////////////////////////
+	void EngineStateMachine(int initial, int engine, double engineIgniter, double engineStarter, double n2, double idleN2) {
+		int resetTimer = 0;
+
+		if (initial == 1) {
+			if (engineStarter == 1 && n2 >= 50) {
+				EngineState = 1;
+			}
+			else {
+				EngineState = 0;
+			}
+		}
+		else {
+			switch (engine) {
+			case 1:
+				EngineState = simVars->getEngine1State();
+				break;
+			case 2:
+				EngineState = simVars->getEngine2State();
+				break;
+			}
+
+			// Engine Starting
+			if ((EngineState == 0 || EngineState == 3) && engineIgniter == 1 && engineStarter == 1) {
+				EngineState = 2;
+				resetTimer = 1;
+			}
+			// Engine Shutting
+			else if ((EngineState == 1 || EngineState == 2) && engineStarter == 0 && n2 > 0) {
+				EngineState = 3;
+				resetTimer = 1;
+			}
+			// Engine ON
+			else if (EngineState == 2 && engineIgniter == 1 && engineStarter == 1 && n2 >= (idleN2-0.1)) {
+				EngineState = 1;
+				resetTimer = 1;
+			}
+			// Engine OFF
+			else if (EngineState == 3 && engineStarter == 0 && n2 <= 0.1) {
+				EngineState = 0;
+				resetTimer = 1;
+			}
+			// Maintain State
+			else {
+				EngineState = EngineState;
+			}
+		}
+
+		switch (engine) {
+		case 1:
+			simVars->setEngine1State(EngineState);
+			if (resetTimer == 1) {
+				simVars->setEngine1Timer(0);
+			}
+			break;
+		case 2:
+			simVars->setEngine2State(EngineState);
+			if (resetTimer == 1) {
+				simVars->setEngine2Timer(0);
+			}
+			break;
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////
 	// Engine Imbalance Coded Digital Word:
 	// 00 - Engine, 00 - N2, 00 - FuelFlow, 00 - EGT
 	// Generates a random engine imbalance. Next steps: make realistic imbalance due to wear
+	///////////////////////////////////////////////////////////////////////////////////////////
 	void EngineImbalance(int initial) {
 		srand((int)time(0));
 
@@ -106,19 +177,19 @@ private:
 		}
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////
 	// Engine Start Procedure
-	void engineStartProcedure(int idx, double deltaTime, double timer, double n2, double pressAltitude, double ambientTemp) {
-		EngineStartData N2Start;
-
+	///////////////////////////////////////////////////////////////////////////////////////////
+	void engineStartProcedure(int engine, double deltaTime, double timer, double n2, double pressAltitude, double ambientTemp) {
 		idleN2 = simVars->getEngineIdleN2();
 
-		if (idx == 1) {
+		if (engine == 1) {
 			// Delay between Engine Master ON and Start Valve Open
 			if (timer < 2) {
 				simVars->setEngine1Timer(timer + deltaTime);
-				N2Start.StartCN2Left = 0;
-				N2Start.StartCN2Right = n2;
-				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::EngineStartControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(N2Start), &N2Start);
+				StartCN2Left = 0;
+				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::StartCN2Left, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(double), &StartCN2Left);
+				//N2Start.StartCN2Right = simVars->getN2(2);
 			}
 			else {
 				preN2 = simVars->getEngine1N2();
@@ -128,33 +199,23 @@ private:
 		else {
 			if (timer < 2) {
 				simVars->setEngine2Timer(timer + deltaTime);
-                N2Start.StartCN2Left = n2;
-				N2Start.StartCN2Right = 0;
-				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::EngineStartControls, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(N2Start), &N2Start);
+				//N2Start.StartCN2Left = simVars->getN2(1);
+				StartCN2Right = 0;
+				SimConnect_SetDataOnSimObject(hSimConnect, DataTypesID::StartCN2Right, SIMCONNECT_OBJECT_ID_USER, 0, 0, sizeof(double), &StartCN2Right);
 			}
 			else {
 				preN2 = simVars->getEngine2N2();
 				simVars->setEngine2N2(poly->n2NX(n2, preN2, idleN2));
 			}
 		}
-
-		// Checking Engine Idle condition
-		if (n2 >= idleN2) {
-			if (idx == 1) {
-				simVars->setEngine1State(1);
-				simVars->setEngine1Timer(0);
-			}
-			else {
-				simVars->setEngine2State(1);
-				simVars->setEngine2Timer(0);
-			}
-		}
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////
 	// FBW Engine RPM (N1 and N2)
 	// Updates Engine N1 and N2 with our own algorithm for start-up and shutdown
-	void updateRPM(int idx, double n2) {
-		if (idx == 1) {
+	///////////////////////////////////////////////////////////////////////////////////////////
+	void updateRPM(int engine, double n2) {
+		if (engine == 1) {
 			simVars->setEngine1N2(n2);
 		}
 		else {
@@ -375,81 +436,64 @@ public:
 		std::cout << "FADEC: Initializing EngineControl" << std::endl;
 
 		simVars = new SimVars();
+		EngTime = 0;
 
+		// One-off Engine Imbalance
 		EngineImbalance(1);
 
-		Eng1Time = simVars->getEngineTime(1);
-		Eng2Time = simVars->getEngineTime(2);
-		simVars->setEngineCycleTime(Eng1Time + Eng2Time);
+		for (engine = 1; engine <= 2; engine++) {
+			// Initial Engine State
+			EngineStateMachine(1, engine, 0, simVars->getEngineStarter(engine), simVars->getN2(engine), 0);
+
+			// Obtain Engine Time
+			EngTime = simVars->getEngineTime(engine) + EngTime;
+		}
+
+		simVars->setEngineCycleTime(EngTime);
 
 		// Resetting Engine Timers
 		simVars->setEngine1Timer(0);
 		simVars->setEngine2Timer(0);
 
-		// Checking for engine combustion (engine on or off)
-		Engine1Combustion = simVars->getEngineCombustion(1);
-		Engine2Combustion = simVars->getEngineCombustion(2);
-
-		// Setting Engine State 
-		if (Engine1Combustion) {
-			simVars->setEngine1State(1);
-		}
-		else {
-			simVars->setEngine1State(0);
-		}
-
-		if (Engine2Combustion) {
-			simVars->setEngine2State(1);
-		}
-		else {
-			simVars->setEngine2State(0);
-		}
 	}
 
 	void update(double deltaTime) {
 		// Per cycle Initial Conditions
-		idx = 2;
 		mach = simVars->getMach();
 		pressAltitude = simVars->getPressureAltitude();
 		ambientTemp = simVars->getAmbientTemperature();
 		idleN1 = IdleCN1(pressAltitude, ambientTemp) * sqrt(ratios->theta2(mach, ambientTemp));
 		idleN2 = IdleCN2(pressAltitude, ambientTemp) * sqrt((273.15 + ambientTemp) / 288.15);
 		simVars->setEngineIdleN1(idleN1);
-		simVars->setEngineIdleN2(idleN2); 
+		simVars->setEngineIdleN2(idleN2);
 
 		// Timer timer;
-		while (idx != 0) {
-			engineStarter = simVars->getEngineStarter(idx);
-			engineIgniter = simVars->getEngineIgniter(idx);
-			n2 = simVars->getN2(idx);
+		for (engine = 1; engine <= 2; engine++) {
+			engineStarter = simVars->getEngineStarter(engine);
+			engineIgniter = simVars->getEngineIgniter(engine);
+			n2 = simVars->getN2(engine);
 
-			// Are we starting the engine?
-			if (idx == 1) {
-				timer = simVars->getEngine1Timer();
+			// Set & Check Engine Status for this Cycle
+			EngineStateMachine(0, engine, engineIgniter, engineStarter, n2, idleN2);
+			if (engine == 1) {
 				EngineState = simVars->getEngine1State();
-				if (engineStarter && engineIgniter && timer == 0 && EngineState != 1) {
-					simVars->setEngine1State(2);
-				}
+				timer = simVars->getEngine1Timer();
 			}
 			else {
-				timer = simVars->getEngine2Timer();
 				EngineState = simVars->getEngine2State();
-				if (engineStarter && engineIgniter && timer == 0 && EngineState != 1) {
-					simVars->setEngine2State(2);
-				}
+				timer = simVars->getEngine2Timer();
 			}
 
 			switch (int(EngineState)) {
 			case 2:
-				engineStartProcedure(idx, deltaTime, timer, n2, pressAltitude, ambientTemp);
+				engineStartProcedure(engine, deltaTime, timer, n2, pressAltitude, ambientTemp);
 				break;
 			default:
-				cn1 = simVars->getCN1(idx);
-				updateRPM(idx, n2);
-				cff = updateFF(idx, cn1, mach, pressAltitude, ambientTemp);
-				updateEGT(idx, cn1, cff, mach, pressAltitude, ambientTemp);
+				cn1 = simVars->getCN1(engine);
+				updateRPM(engine, n2);
+				cff = updateFF(engine, cn1, mach, pressAltitude, ambientTemp);
+				updateEGT(engine, cn1, cff, mach, pressAltitude, ambientTemp);
 			}
-			idx--;
 		}
 
 		updateFuel(deltaTime);
